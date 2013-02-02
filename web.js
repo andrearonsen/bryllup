@@ -12,7 +12,7 @@ app.get('/', function(request, response) {
   mongo.Db.connect(mongoUri, function (err, db) {
   db.collection('gjester', function(er, collection) {
     collection.get({'invitasjonsnummer': 'FAR123'}, {safe: true}, function(er, rs) {
-      response.send('Hello World!' + rs);
+      response.sendFile('public/index.html');
     });
   });
 });
