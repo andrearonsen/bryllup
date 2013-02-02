@@ -2,8 +2,8 @@
   "name": "bryllup-fagerliearonsen",
   "version": "0.0.1",
   "dependencies": {
-    "express": "2.5.x",
-    "mongoose" : "3.5.x"
+    "pg": "0.6.15",
+    "express": "latest"
   },
   "engines": {
     "node": "0.8.x",

@@ -1,16 +1,12 @@
-var mongoose = require ("mongoose");
+var express = require('express');
 
-// Connect to db, localhost if no ENV vars set
-var uristring = process.env.MONGOLAB_URI;
+var app = express.createServer(express.logger());
 
-// Ensure safe writes
-var mongoOptions = { db: { safe: true }};
+app.get('/', function(request, response) {
+  response.send('Hello World!');
+});
 
-// Connect
-mongoose.connect(uristring, mongoOptions, function (err, res) {
-  if (err) { 
-    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
-  } else {
-    console.log ('Succeeded connected to: ' + uristring);
-  }
+var port = process.env.PORT || 5000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
 });
