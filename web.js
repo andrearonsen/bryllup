@@ -2,6 +2,17 @@ var express = require('express');
 
 var app = express.createServer(express.logger());
 
+var mongo = require('mongodb');
+
+var mongoUri = process.env.MONGOLAB_URI; 
+
+mongo.Db.connect(mongoUri, function (err, db) {
+  db.collection('gjester', function(er, collection) {
+    collection.insert({'navn1': 'André'}, {safe: true}, function(er,rs) {
+    });
+  });
+});
+
 app.get('/', function(request, response) {
   response.send('Hello World!');
 });
