@@ -1,10 +1,7 @@
 var mongoose = require ("mongoose");
 
 // Connect to db, localhost if no ENV vars set
-var uristring = 
-  process.env.MONGODB_URI || 
-  process.env.MONGOLAB_URI || 
-  'mongodb://localhost/HelloMongoose';
+var uristring = process.env.MONGOLAB_URI;
 
 // Ensure safe writes
 var mongoOptions = { db: { safe: true }};
