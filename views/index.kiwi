@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -55,6 +54,7 @@
       <h1>Bryllup 24. august 2013</h1>
       <p>Sarah og André gifter seg!</p>
 
+      <h2> Velkommen til bryllupssiden, {gjester}</h2>
     </div>
 
     <script src="js/jquery.js"></script>
