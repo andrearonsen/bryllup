@@ -2,9 +2,11 @@ var express = require('express');
 
 var app = express.createServer(express.logger());
 
-app.configure(function(){
+app.configure(function() {
   app.use(express.static(__dirname + '/public'));
 });
+
+app.set('view engine', 'kiwi');
 
 var mongo = require('mongodb');
 
@@ -14,7 +16,8 @@ app.get('/', function(request, response) {
   mongo.Db.connect(mongoUri, function (err, db) {
   db.collection('gjester', function(er, collection) {
     collection.get({'invitasjonsnummer': 'FAR123'}, {safe: true}, function(er, rs) {
-      response.sendFile('public/index.html');
+      //response.sendFile('public/index.html');
+      response.render("index", {});
     });
   });
 });

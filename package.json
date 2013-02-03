@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "dependencies": {
     "mongodb" : "latest",
-    "express": "latest"
+    "express": "latest",
+    "kiwi": "latest"
   },
   "engines": {
     "node": "0.8.x",
