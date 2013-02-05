@@ -1,5 +1,6 @@
 var express = require('express')
   , routes = require('./routes')
+  , hovedside = require('./routes/hovedside')
   , http = require('http')
   , path = require('path');
 
@@ -24,6 +25,7 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/hovedside/:invitasjonskode', hovedside.vis);
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {
