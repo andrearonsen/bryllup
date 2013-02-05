@@ -1,3 +1,9 @@
+var mongodb = require('mongodb');
+var server = new mongodb.Server("127.0.0.1", 27017, {});
+
+var fn = require('underscore');
+var fn_s = require('underscore.string');
+
 var template = {
     invitasjonsnummer: 'initialer + random(100-999) = AKASEF765',
     gjest1 : {
@@ -33,8 +39,6 @@ function rand(min, max) {
 }
 
 function lagInvitasjonskode(initialer) {
-  var fn = require('underscore');
-  var fn_s = require('underscore.string');
   var initialer_str = fn.reduce(fn.flatten(initialer), function (memo, i) {
     return memo + i;
   }, '');
@@ -64,19 +68,14 @@ function lagInvitasjonForDB(invitasjon) {
 
 
 function lagInvitasjonslisteForDB(invitasjonsliste) {
-  var fn = require('underscore');
   return fn.map(invitasjonsliste, lagInvitasjonForDB);
 }
 
 function printGjest(gjest) {
-  var fn = require('underscore');
-  var fn_s = require('underscore.string');
   return fn_s.toSentence(fn.compact([gjest.fornavn, gjest.mellomnavn, gjest.etternavn]), " ", " ");
 }
 
 function printInvitasjonsliste(liste) {
-  var fn = require('underscore');
-  var fn_s = require('underscore.string');
   liste.forEach(function (invitasjon) {
     var gjester = fn.compact([invitasjon.gjest1, invitasjon.gjest2, invitasjon.gjest3]);
     console.log(fn_s.toSentence(gjester.map(printGjest), ", ", " og "));
@@ -84,12 +83,24 @@ function printInvitasjonsliste(liste) {
 }
 
 function printDatabaseListe(liste) {
-  var fn = require('underscore');
-  var fn_s = require('underscore.string');
   liste.map(lagInvitasjonForDB).forEach(function (invitasjon) {
     var gjester = fn.compact([invitasjon.gjest1, invitasjon.gjest2, invitasjon.gjest3]);
     console.log('Invitasjonskode: ' + invitasjon.invitasjonskode);
     console.log(fn_s.toSentence(gjester.map(printGjest), ", ", " og "));
+  });
+}
+
+function skrivInvitasjonslisteTilDB(invitasjonsliste) {
+  new mongodb.Db('bryllup', server, {w: 1}).open(function (error, client) {
+    if (error) throw error;
+    var gjesteliste = new mongodb.Collection(client, 'gjesteliste');
+
+    gjesteliste.insert(invitasjonsliste.map(lagInvitasjonForDB), function(err, docs) {
+      if (err) console.warn(err.message);
+      else console.log('Lagt inn ' + invitasjonsliste.length + ' invitasjoner.');
+      client.close();
+    });
+
   });
 }
 
@@ -126,3 +137,4 @@ var invitasjonsliste = [
 ];
 
 printDatabaseListe(invitasjonsliste);
+skrivInvitasjonslisteTilDB(invitasjonsliste);
