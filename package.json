@@ -4,7 +4,9 @@
   "dependencies": {
     "mongodb" : "1.2.11",
     "express": "3.1.0",
-    "hbs": "2.0.1"
+    "hbs": "2.0.1",
+    "underscore" : "latest",
+    "underscore.string" : "latest"
   },
   "engines": {
     "node": "0.8.x",
