@@ -1,83 +1,83 @@
-Berit Løvig
+xBerit Løvig
 
-Jan Egil Aronsen
-Vigdis Aronsen
+xJan Egil Aronsen
+xVigdis Aronsen
 
-Sverre Juul Hansen
-Kathrine Holene
+xSverre Juul Hansen
+xKathrine Holene
 
-Åse Johansen
+xÅse Johansen
 
-Solfrid Aronsen
+xSolfrid Aronsen
 
-Jesper Juul Hansen
-Maren Kathrine Raiby
+xJesper Juul Hansen
+xMaren Kathrine Raiby
 
-Aleksander Kvist Aronsen
-Lise Katrine Kähler
+xAleksander Kvist Aronsen
+xLise Katrine Kähler
 
-Silje Konstanse Fagerlie Hansen
-Stein Rino Hansen
+xSilje Konstanse Fagerlie Hansen
+xStein Rino Hansen
 
-Tanja Huse-Fagerlie
-Sverre Huse-Fagerlie
+xTanja Huse-Fagerlie
+xSverre Huse-Fagerlie
 
-Frode Johansen
-Astrid Halmøy
+xFrode Johansen
+xAstrid Halmøy
 
-Ivar Goplen
-Trine Lise Aronsen
+xIvar Goplen
+xTrine Lise Aronsen
 
-Kjell Aronsen
-Solfrid Midtvik Aronsen
+xKjell Aronsen
+xSolfrid Midtvik Aronsen
 
-Bjørg Brandt
-Odd Brandt
+xBjørg Brandt
+xOdd Brandt
 
-Jorunn Fagerlie
-Bengt Fagerlie
+xJorunn Fagerlie
+xBengt Fagerlie
 
-Bjørn Fagerlie
-Judith Bjørkli
+xBjørn Fagerlie
+xJudith Bjørkli
 
-Marie-Jeanette Dalberg Bruun
-Anders Berg
+xMarie-Jeanette Dalberg
+xAnders Berg
 
-Linn-Therese Dalberg Johansen
-Steinar Ognedal
+xLinn-Therese Dalberg Johansen
+xSteinar Ognedal
 
-Mats Goplen
-Toril Midttun
+xMats Goplen
+xToril Midttun
 
-Simen Goplen
-Helene Pedersen
+xSimen Goplen
+xHelene Pedersen
 
-Christoffer Narten Johansen
+xChristoffer Narten Johansen
 
-Cecilie Narten
-Anders Hareide Holt
+xCecilie Narten
+xAnders Hareide Holt
 
-Kenneth Narten Johansen
-Kjersti Dahl
+xKenneth Narten Johansen
+xKjersti Dahl
 
-Kim Halvard Midtvik Aronsen
+xKim Halvard Midtvik Aronsen
 
-Kristina Midtvik Aronsen
+xKristina Midtvik Aronsen
 
-Anne-Cecilie Fagerlie
-Odd Morten Degnæs
+xAnne-Cecilie Fagerlie
+xOdd Morten Degnæs
 
-Eva Brandt
-Lars Berntzen
+xEva Brandt
+xLars Berntzen
 
-Morten Brandt
-Hanne Brandt
+xMorten Brandt
+xHanne Brandt
 
-Øyvind Fagerlie
-Hanne Fagerlie
+xØyvind Fagerlie
+xHanne Fagerlie
 
-Ole Fagerlie
-Gro Fagerlie
+xOle Fagerlie
+xGro Fagerlie
 
 Mie Molin Lafjell
 Martin Weydahl
