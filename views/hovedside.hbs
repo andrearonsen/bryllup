@@ -29,15 +29,37 @@
 
   <body>
 
+    <div class="navbar navbar-inner navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Bryllup</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Hjem</a></li>
+              <li><a href="#about">Info</a></li>
+              <li><a href="#contact">Kontakt</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container">
-      <div id="melding"></div>
-      <input type="text" id="invitasjonskodeInput"></input>
-      <button id='sjekkInvitasjonskodeKnapp'>Sjekk</button>
+
+      <h1>Bryllup 24. august 2013</h1>
+      <p>Sarah og André gifter seg!</p>
+
+      <h2> Velkommen til bryllupssiden, {{gjester.gjest1.fornavn}}!</h2>
     </div>
 
     <script src="/js/jquery.js"></script>
     <script src="/js/underscore.js"></script>
     <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/bryllup.js"></script>
+
   </body>
 </html>

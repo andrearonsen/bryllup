@@ -1,5 +1,10 @@
 var mongodb = require('mongodb');
-var server = new mongodb.Server("127.0.0.1", 27017, {});
+
+var server = new mongodb.Server("heroku_app11537877:1juhi6cu74fau867pjtaab3vna@ds049467.mongolab.com", 49467);
+var bryllupDbNavn = "heroku_app11537877";
+
+// var server = new mongodb.Server("127.0.0.1", 27017, {});
+// var bryllupDbNavn = "bryllup";
 
 var fn = require('underscore');
 var fn_s = require('underscore.string');
@@ -723,4 +728,4 @@ var invitasjonsliste = [
 ];
 
 printDatabaseListe(invitasjonsliste);
-// skrivInvitasjonslisteTilDB(invitasjonsliste);
+//skrivInvitasjonslisteTilDB(invitasjonsliste);
