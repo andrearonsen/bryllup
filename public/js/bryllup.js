@@ -14,6 +14,7 @@ var BRYLLUP = this.BRYLLUP || {};
         },
         404: function () {
           $("#melding").text("Invitasjonskoden finnes ikke.");
+          $("#invitasjonskodeInput").focus();
         },
         500: function () {
           $("#melding").text("Feil på server.");
@@ -38,7 +39,7 @@ var BRYLLUP = this.BRYLLUP || {};
         var invitasjonskode = $(this).get(0).value;
         sjekkInvitasjonskode(invitasjonskode);
       }   
-    });
+    }).focus();
   };
 }(window, jQuery));
 
