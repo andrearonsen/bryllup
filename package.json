@@ -1,6 +1,6 @@
 {
   "name": "bryllup-fagerliearonsen",
-  "version": "0.0.1-2",
+  "version": "0.0.1-4",
   "dependencies": {
     "mongodb": "1.2.11",
     "express": "3.1.0",
@@ -12,6 +12,9 @@
     "node": "0.8.x",
     "npm": "1.1.x"
   },
+  "domains": [
+    "bryllup.fagerliearonsen.com"
+  ],
   "subdomain": "fagerliearonsen.bryllup",
   "scripts": {
     "start": "web.js"
