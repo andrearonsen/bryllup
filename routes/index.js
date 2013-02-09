@@ -1,6 +1,7 @@
 var mongo = require('mongodb');
 
-var bryllupDbUri = process.env.MONGOLAB_URI || "mongodb://localhost:27017/bryllup";
+// var bryllupDbUri = process.env.MONGOLAB_URI || "mongodb://localhost:27017/bryllup";
+var bryllupDbUri = "mongodb://nodejitsu_andrearonsen:5kn803s0rp2nrpt3r4cplahs7u@ds049537.mongolab.com:49537/nodejitsu_andrearonsen_nodejitsudb7379247420";
 
 function hentInvitasjon(invitasjonskode, behandle_invitasjon) {
   mongo.Db.connect(bryllupDbUri, function (err, db) {
