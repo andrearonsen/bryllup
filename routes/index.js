@@ -17,7 +17,7 @@ exports.index = function(req, res) {
 };
 
 exports.sjekkinvitasjonskode = function (req, res) {
-  var invitasjonskode = req.params.invitasjonskode;
+  var invitasjonskode = req.params.invitasjonskode.toUpperCase();
   hentInvitasjon(invitasjonskode, function(err, item) {
     if (!item) {
       console.warn('Invitasjonskode ' + invitasjonskode + ' ikke funnet.');
@@ -33,7 +33,7 @@ exports.sjekkinvitasjonskode = function (req, res) {
 };
 
 exports.hovedside = function(req, res) {
-  var invitasjonskode = req.params.invitasjonskode;
+  var invitasjonskode = req.params.invitasjonskode.toUpperCase();
   hentInvitasjon(invitasjonskode, function(err, item) {
     if (!item) {
       console.warn('Invitasjonskode ' + invitasjonskode + ' ikke funnet.');

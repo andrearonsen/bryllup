@@ -1,9 +1,14 @@
 var mongodb = require('mongodb');
 
-var mongolabs_username = "heroku_app11537877";
-var mongolabs_pw = "1juhi6cu74fau867pjtaab3vna";
-var mongolabs_server = new mongodb.Server("ds049467.mongolab.com", 49467);
-var mongolabs_bryllupDbNavn = "heroku_app11537877";
+// var mongolabs_username = "heroku_app11537877";
+// var mongolabs_pw = "1juhi6cu74fau867pjtaab3vna";
+// var mongolabs_server = new mongodb.Server("ds049467.mongolab.com", 49467);
+// var mongolabs_bryllupDbNavn = "heroku_app11537877";
+
+var mongolabs_username = "nodejitsu_andrearonsen";
+var mongolabs_pw = "5kn803s0rp2nrpt3r4cplahs7u";
+var mongolabs_server = new mongodb.Server("ds049537.mongolab.com", 49537);
+var mongolabs_bryllupDbNavn = "nodejitsu_andrearonsen_nodejitsudb7379247420";
 
 var server = new mongodb.Server("127.0.0.1", 27017, {});
 var bryllupDbNavn = "bryllup";
@@ -71,7 +76,11 @@ function lagInvitasjonForDB(invitasjon) {
       kode.push(initialer(invitasjon.gjest3));
       settDefaultVerdierForGjest(invitasjon.gjest3);
     }
-    invitasjon.invitasjonskode = lagInvitasjonskode(kode);
+    
+    var inv_kode = invitasjon.invitasjonskode || lagInvitasjonskode(kode);
+    
+    invitasjon.invitasjonskode = inv_kode.toUpperCase();
+
     return invitasjon;  
 }
 
@@ -98,7 +107,7 @@ function printDatabaseListe(liste) {
   });
 }
 
-function leggInnInvitasjonslisteIDB(error, client) {
+function leggInnInvitasjonslisteIDB(error, client, invitasjonsliste) {
   if (error) throw error;
   var gjesteliste = new mongodb.Collection(client, 'gjesteliste');
 
@@ -111,7 +120,7 @@ function leggInnInvitasjonslisteIDB(error, client) {
 
 function skrivInvitasjonslisteTilDB(invitasjonsliste) {
   new mongodb.Db(bryllupDbNavn, server, {w: 1}).open(function (error, client) {
-    leggInnInvitasjonslisteIDB(error, client);
+    leggInnInvitasjonslisteIDB(error, client, invitasjonsliste);
   });
 }
 
@@ -120,12 +129,33 @@ function skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste) {
   var client = new mongodb.Db(mongolabs_bryllupDbNavn, mongolabs_server, {w: 1});
   client.open(function (error, p_client) {
     client.authenticate(mongolabs_username, mongolabs_pw, function(err, p_client) { 
-      leggInnInvitasjonslisteIDB(error, client); 
+      leggInnInvitasjonslisteIDB(error, client, invitasjonsliste); 
     }); 
   });
 }
 
-var invitasjonsliste = [
+function brudepar() {
+  return [{
+  gjest1 : {
+      fornavn: 'André',
+      mellomnavn: 'Kvist',
+      etternavn: 'Aronsen',
+      kommer: 'JA',
+      kommentar: 'Brudgommen.'
+    },
+  gjest2 : {
+    fornavn: 'Sarah Elise',
+    mellomnavn: 'Fagerlie',
+    etternavn: 'Hansen',
+    kommer: 'JA',
+    kommentar: 'Brura.'
+  },
+  invitasjonskode: 'hymenslenker'  
+  }];
+}  
+
+function invitasjonsliste_gjester() {
+  return [
   // FORELDRE:
   {
     gjest1 : {
@@ -739,11 +769,12 @@ var invitasjonsliste = [
       etternavn: 'Hirsch'
     }
   }
- 
-];
+  ];
+}
 
-printDatabaseListe(invitasjonsliste);
+// printDatabaseListe(invitasjonsliste);
 // skrivInvitasjonslisteTilDB(invitasjonsliste);
-skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste);
+// skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste_gjester);
 
+skrivInvitasjonslisteTilDB_MongoLabs(brudepar());
 
