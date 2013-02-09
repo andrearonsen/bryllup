@@ -55,7 +55,7 @@ var BRYLLUP = this.BRYLLUP || {};
   function fjernInvitasjonskode() {
     win.localStorage.removeItem("invitasjonskode");
   }
-  
+
   function sjekkInvitasjonskode(invitasjonskode) {
     $.ajax({
       type: 'GET',
@@ -63,21 +63,22 @@ var BRYLLUP = this.BRYLLUP || {};
       url: "/sjekkinvitasjonskode/" + invitasjonskode,
       statusCode: {
         200: function () {
-          
+          console.log("Fant invitasjonskode: " + invitasjonskode); 
+          lagreInvitasjonskode(invitasjonskode);
+          forwardTilHovedside(invitasjonskode); 
         },
         404: function () {
+          console.log("404"); 
           B.fokusInvitasjonskodeInput();
           B.meldinger.fantIkkeKode();
         },
         500: function () {
+          console.log("500"); 
           B.fokusInvitasjonskodeInput();
           B.meldinger.serverFeil();
         }
       }
-    }).done(function (item) {
-      lagreInvitasjonskode(invitasjonskode);
-      forwardTilHovedside(invitasjonskode);
-    });   
+    }); 
   }
 
   function startIndex() {

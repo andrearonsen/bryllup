@@ -34,7 +34,7 @@
       <p>Invitasjonskoden finner du på baksiden av invitasjonen.</p>
       <p>
         <div id="meldingContainer"></div>
-        <input type="text" id="invitasjonskodeInput"></input>
+        <input type="text" id="invitasjonskodeInput" placeholder="Invitasjonskode" autofocus></input>
       </p>
       <p>
         <a id='sjekkInvitasjonskodeKnapp' class="btn btn-primary btn-large">Sjekk kode</a>
@@ -46,7 +46,10 @@
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/bryllup.js"></script>
     <script>
-      BRYLLUP.startIndex();
+      $(document).ready(function() {
+        BRYLLUP.startIndex();
+        $('#invitasjonskodeInput').focus();
+      });
     </script>
   </body>
 </html>

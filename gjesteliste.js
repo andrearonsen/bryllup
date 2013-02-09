@@ -1,36 +1,18 @@
-var mongodb = require('mongodb');
+var mongo = require('mongodb');
 
-// var mongolabs_username = "heroku_app11537877";
-// var mongolabs_pw = "1juhi6cu74fau867pjtaab3vna";
-// var mongolabs_server = new mongodb.Server("ds049467.mongolab.com", 49467);
-// var mongolabs_bryllupDbNavn = "heroku_app11537877";
+var db_options = {w: 1, native_parser: true};
+var mongolab_username = "nodejitsu_andrearonsen";
+var mongolab_pw = "5kn803s0rp2nrpt3r4cplahs7u";
+var mongolab_server = new mongo.Server("ds049537.mongolab.com", 49537);
+var mongolab_bryllupDbNavn = "nodejitsu_andrearonsen_nodejitsudb7379247420";
+var mongolab_db = new mongo.Db(mongolab_bryllupDbNavn, mongolab_server, db_options);
 
-var mongolabs_username = "nodejitsu_andrearonsen";
-var mongolabs_pw = "5kn803s0rp2nrpt3r4cplahs7u";
-var mongolabs_server = new mongodb.Server("ds049537.mongolab.com", 49537);
-var mongolabs_bryllupDbNavn = "nodejitsu_andrearonsen_nodejitsudb7379247420";
-
-var server = new mongodb.Server("127.0.0.1", 27017, {});
-var bryllupDbNavn = "bryllup";
+var local_server = new mongo.Server("127.0.0.1", 27017, {});
+var local_bryllupDbNavn = "bryllup";
+var local_db = new mongo.Db(local_bryllupDbNavn, local_server,  db_options);
 
 var fn = require('underscore');
 var fn_s = require('underscore.string');
-
-var template = {
-    invitasjonsnummer: 'initialer + random(100-999) = AKASEF765',
-    gjest1 : {
-      fornavn: 'André Kvist',
-      etternavn: 'Aronsen',
-      kommer : false,
-      kommentar: ''
-    },
-    gjest2 : {
-      fornavn: 'Sarah Elise Fagerlie',
-      etternavn: 'Hansen',
-      kommer : false,
-      kommentar: '' 
-    }
-};
 
 function initialer(gjest) {
   var i = [];
@@ -109,48 +91,53 @@ function printDatabaseListe(liste) {
 
 function leggInnInvitasjonslisteIDB(error, client, invitasjonsliste) {
   if (error) throw error;
-  var gjesteliste = new mongodb.Collection(client, 'gjesteliste');
-
-  gjesteliste.insert(invitasjonsliste.map(lagInvitasjonForDB), function(err, docs) {
-    if (err) console.warn(err.message);
-    else console.log('Lagt inn ' + invitasjonsliste.length + ' invitasjoner.');
-    client.close();
-  });
+    var gjesteliste = new mongo.Collection(client, 'gjesteliste');
+    
+    gjesteliste.ensureIndex({"invitasjonskode" : 1}, {unique : true, dropDups: true}, function (err, res) {
+      if (err) throw err;
+    });
+    
+    var liste_db = invitasjonsliste.map(lagInvitasjonForDB);
+    gjesteliste.insert(liste_db, function(err, docs) {
+      if (err) console.warn(err.message);
+      else console.log('Lagt inn ' + invitasjonsliste.length + ' invitasjoner.');
+      client.close();
+      printDatabaseListe(liste_db);
+    });     
 }
 
 function skrivInvitasjonslisteTilDB(invitasjonsliste) {
-  new mongodb.Db(bryllupDbNavn, server, {w: 1}).open(function (error, client) {
+  local_db.open(function (error, client) {
     leggInnInvitasjonslisteIDB(error, client, invitasjonsliste);
   });
 }
 
 
 function skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste) {
-  var client = new mongodb.Db(mongolabs_bryllupDbNavn, mongolabs_server, {w: 1});
-  client.open(function (error, p_client) {
-    client.authenticate(mongolabs_username, mongolabs_pw, function(err, p_client) { 
-      leggInnInvitasjonslisteIDB(error, client, invitasjonsliste); 
+  mongolab_db.open(function (error, p_client) {
+    mongolab_db.authenticate(mongolab_username, mongolab_pw, function(err, p_client) { 
+      leggInnInvitasjonslisteIDB(error, mongolab_db, invitasjonsliste);
     }); 
   });
 }
 
 function brudepar() {
   return [{
-  gjest1 : {
-      fornavn: 'André',
-      mellomnavn: 'Kvist',
-      etternavn: 'Aronsen',
-      kommer: 'JA',
-      kommentar: 'Brudgommen.'
+    gjest1 : {
+        fornavn: 'André',
+        mellomnavn: 'Kvist',
+        etternavn: 'Aronsen',
+        kommer: 'Ja',
+        kommentar: 'Brudgommen.'
+      },
+    gjest2 : {
+      fornavn: 'Sarah Elise',
+      mellomnavn: 'Fagerlie',
+      etternavn: 'Hansen',
+      kommer: 'Ja',
+      kommentar: 'Brura.'
     },
-  gjest2 : {
-    fornavn: 'Sarah Elise',
-    mellomnavn: 'Fagerlie',
-    etternavn: 'Hansen',
-    kommer: 'JA',
-    kommentar: 'Brura.'
-  },
-  invitasjonskode: 'hymenslenker'  
+    invitasjonskode: 'hymenslenker'  
   }];
 }  
 
@@ -776,5 +763,5 @@ function invitasjonsliste_gjester() {
 // skrivInvitasjonslisteTilDB(invitasjonsliste);
 // skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste_gjester);
 
-skrivInvitasjonslisteTilDB_MongoLabs(brudepar());
-
+// skrivInvitasjonslisteTilDB_MongoLabs(brudepar());
+skrivInvitasjonslisteTilDB_MongoLabs(brudepar().concat(invitasjonsliste_gjester()));

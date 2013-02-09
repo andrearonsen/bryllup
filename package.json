@@ -1,10 +1,10 @@
 {
   "name": "bryllup-fagerliearonsen",
-  "version": "0.0.1-4",
+  "version": "0.0.1-12",
   "dependencies": {
     "mongodb": "1.2.11",
     "express": "3.1.0",
-    "hbs": "2.0.1",
+    "jade": "latest",
     "underscore": "latest",
     "underscore.string": "latest"
   },
@@ -13,10 +13,9 @@
     "npm": "1.1.x"
   },
   "domains": [
-    "www.fagerliearonsen.com",
     "bryllup.fagerliearonsen.com"
   ],
-  "subdomain": "fagerliearonsen.bryllup",
+  "subdomain": "bryllup.fagerliearonsen",
   "scripts": {
     "start": "web.js"
   }
