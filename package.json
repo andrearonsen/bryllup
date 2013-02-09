@@ -13,6 +13,7 @@
     "npm": "1.1.x"
   },
   "domains": [
+    "www.fagerliearonsen.com",
     "bryllup.fagerliearonsen.com"
   ],
   "subdomain": "fagerliearonsen.bryllup",
