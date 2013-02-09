@@ -1,10 +1,12 @@
 var mongodb = require('mongodb');
 
-var server = new mongodb.Server("heroku_app11537877:1juhi6cu74fau867pjtaab3vna@ds049467.mongolab.com", 49467);
-var bryllupDbNavn = "heroku_app11537877";
+var mongolabs_username = "heroku_app11537877";
+var mongolabs_pw = "1juhi6cu74fau867pjtaab3vna";
+var mongolabs_server = new mongodb.Server("ds049467.mongolab.com", 49467);
+var mongolabs_bryllupDbNavn = "heroku_app11537877";
 
-// var server = new mongodb.Server("127.0.0.1", 27017, {});
-// var bryllupDbNavn = "bryllup";
+var server = new mongodb.Server("127.0.0.1", 27017, {});
+var bryllupDbNavn = "bryllup";
 
 var fn = require('underscore');
 var fn_s = require('underscore.string');
@@ -96,17 +98,30 @@ function printDatabaseListe(liste) {
   });
 }
 
+function leggInnInvitasjonslisteIDB(error, client) {
+  if (error) throw error;
+  var gjesteliste = new mongodb.Collection(client, 'gjesteliste');
+
+  gjesteliste.insert(invitasjonsliste.map(lagInvitasjonForDB), function(err, docs) {
+    if (err) console.warn(err.message);
+    else console.log('Lagt inn ' + invitasjonsliste.length + ' invitasjoner.');
+    client.close();
+  });
+}
+
 function skrivInvitasjonslisteTilDB(invitasjonsliste) {
-  new mongodb.Db('bryllup', server, {w: 1}).open(function (error, client) {
-    if (error) throw error;
-    var gjesteliste = new mongodb.Collection(client, 'gjesteliste');
+  new mongodb.Db(bryllupDbNavn, server, {w: 1}).open(function (error, client) {
+    leggInnInvitasjonslisteIDB(error, client);
+  });
+}
 
-    gjesteliste.insert(invitasjonsliste.map(lagInvitasjonForDB), function(err, docs) {
-      if (err) console.warn(err.message);
-      else console.log('Lagt inn ' + invitasjonsliste.length + ' invitasjoner.');
-      client.close();
-    });
 
+function skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste) {
+  var client = new mongodb.Db(mongolabs_bryllupDbNavn, mongolabs_server, {w: 1});
+  client.open(function (error, p_client) {
+    client.authenticate(mongolabs_username, mongolabs_pw, function(err, p_client) { 
+      leggInnInvitasjonslisteIDB(error, client); 
+    }); 
   });
 }
 
@@ -728,4 +743,7 @@ var invitasjonsliste = [
 ];
 
 printDatabaseListe(invitasjonsliste);
-//skrivInvitasjonslisteTilDB(invitasjonsliste);
+// skrivInvitasjonslisteTilDB(invitasjonsliste);
+skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste);
+
+

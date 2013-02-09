@@ -12,7 +12,7 @@ function hentInvitasjon(invitasjonskode, behandle_invitasjon) {
 }
 
 exports.index = function(req, res) {
-  res.render('index', {});
+  res.sendfile('index.html');
 };
 
 exports.sjekkinvitasjonskode = function (req, res) {
