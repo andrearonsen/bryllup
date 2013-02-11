@@ -14,6 +14,7 @@
     </style>
     <link href="/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="/css/bootstrap-modal.css" rel="stylesheet">
+    <link href="/css/bryllup.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -42,7 +43,9 @@
       </p>
     </div>
 
-    <div id="loading" data-toggle="modal" data-target="#loading" />
+    <div id="loadingScreen" class="modal hide" data-backdrop="static" data-keyboard="false">
+      <img src="/img/ajax-loader.gif" />
+    </div>
 
     <script src="/js/jquery.js"></script>
     <script src="/js/underscore.js"></script>

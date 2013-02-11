@@ -1,8 +1,11 @@
+//////////////////////////
+var use_local_db = false;
+//////////////////////////
+
 var mongo = require('mongodb');
 var fn = require('underscore');
 var fn_s = require('underscore.string');
 
-var use_local_db = true;
 var db_options = {w: 1, native_parser: true};
 var mongolab_username = "nodejitsu_andrearonsen";
 var mongolab_pw = "5kn803s0rp2nrpt3r4cplahs7u";

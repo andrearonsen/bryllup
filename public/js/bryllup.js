@@ -14,13 +14,12 @@ var BRYLLUP = this.BRYLLUP || {};
       interpolate : /\{\{(.+?)\}\}/g
     };
 
-    // $.fn.modalmanager.defaults.spinner = '<img class="loading-spinner" src="/img/ajax-loader.gif" />';
-    // $.fn.modal.defaults.spinner = '<img class="loading-spinner" src="/img/ajax-loader.gif" />';
-
     var meldingContainer = $('#meldingContainer');
     var fantIkkeKodeMelding = $(_.template(meldingTemplate, {tekst: fantIkkeKodeTekst}));
     var serverFeilMelding = $(_.template(meldingTemplate, {tekst: serverFeilTekst}));
-    
+
+    var loadingScreen = $("#loadingScreen").modal({show: false});
+
     B.meldinger.fantIkkeKode = function () {
       meldingContainer.empty();
       fantIkkeKodeMelding.appendTo(meldingContainer);
@@ -31,11 +30,24 @@ var BRYLLUP = this.BRYLLUP || {};
     };
 
     B.invitasjonskodeInput = $("#invitasjonskodeInput");
+
     B.fokusInvitasjonskodeInput = function () {
       B.invitasjonskodeInput.focus();
     };
+
     B.hentVerdiInvitasjonskodeInput = function () {
       return B.invitasjonskodeInput.get(0).value;
+    };
+
+    B.visLoadingScreen = function () {
+      console.log('Viser loading screen.');
+      loadingScreen.modal('show');
+    };
+
+    B.skjulLoadingScreen = function () {
+      console.log('Skjuler loading screen.');
+      loadingScreen.modal('hide');
+      B.fokusInvitasjonskodeInput();
     };
   }
 
@@ -60,9 +72,8 @@ var BRYLLUP = this.BRYLLUP || {};
   }
 
   function sjekkInvitasjonskode(invitasjonskode) {
-    var loading = $('#loading');
-    // loading.modal({spinner: '/img/ajax-loader.gif'});
-    loading.modal();
+    B.visLoadingScreen();
+
     $.ajax({
       type: 'GET',
       dataType: 'json',
@@ -77,13 +88,13 @@ var BRYLLUP = this.BRYLLUP || {};
           console.log("404"); 
           B.fokusInvitasjonskodeInput();
           B.meldinger.fantIkkeKode();
-          loading.modal('hide');
+          B.skjulLoadingScreen();
         },
         500: function () {
           console.log("500"); 
           B.fokusInvitasjonskodeInput();
           B.meldinger.serverFeil();
-          loading.modal('hide');
+          B.skjulLoadingScreen();
         }
       }
     }); 
@@ -92,6 +103,7 @@ var BRYLLUP = this.BRYLLUP || {};
   function startIndex() {
     konfigurer();
 
+    B.visLoadingScreen();
     var lagretInvitasjonskode = hentLagretInvitasjonskode();
     if (lagretInvitasjonskode) {
       forwardTilHovedside(lagretInvitasjonskode);
@@ -108,6 +120,8 @@ var BRYLLUP = this.BRYLLUP || {};
         sjekkInvitasjonskode(invitasjonskode);
       }   
     }).focus();
+    
+    B.skjulLoadingScreen();
   }
 
   function startHovedside() {
