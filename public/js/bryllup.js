@@ -14,6 +14,9 @@ var BRYLLUP = this.BRYLLUP || {};
       interpolate : /\{\{(.+?)\}\}/g
     };
 
+    // $.fn.modalmanager.defaults.spinner = '<img class="loading-spinner" src="/img/ajax-loader.gif" />';
+    // $.fn.modal.defaults.spinner = '<img class="loading-spinner" src="/img/ajax-loader.gif" />';
+
     var meldingContainer = $('#meldingContainer');
     var fantIkkeKodeMelding = $(_.template(meldingTemplate, {tekst: fantIkkeKodeTekst}));
     var serverFeilMelding = $(_.template(meldingTemplate, {tekst: serverFeilTekst}));
@@ -57,6 +60,9 @@ var BRYLLUP = this.BRYLLUP || {};
   }
 
   function sjekkInvitasjonskode(invitasjonskode) {
+    var loading = $('#loading');
+    // loading.modal({spinner: '/img/ajax-loader.gif'});
+    loading.modal();
     $.ajax({
       type: 'GET',
       dataType: 'json',
@@ -71,11 +77,13 @@ var BRYLLUP = this.BRYLLUP || {};
           console.log("404"); 
           B.fokusInvitasjonskodeInput();
           B.meldinger.fantIkkeKode();
+          loading.modal('hide');
         },
         500: function () {
           console.log("500"); 
           B.fokusInvitasjonskodeInput();
           B.meldinger.serverFeil();
+          loading.modal('hide');
         }
       }
     }); 

@@ -2,6 +2,7 @@ var mongo = require('mongodb');
 var fn = require('underscore');
 var fn_s = require('underscore.string');
 
+var use_local_db = true;
 var db_options = {w: 1, native_parser: true};
 var mongolab_username = "nodejitsu_andrearonsen";
 var mongolab_pw = "5kn803s0rp2nrpt3r4cplahs7u";
@@ -11,16 +12,31 @@ var local_server = new mongo.Server("127.0.0.1", 27017, {});
 var local_bryllupDbNavn = "bryllup";
 var local_db = new mongo.Db(local_bryllupDbNavn, local_server,  db_options);
 
-function mongolab_db() {
-  return new mongo.Db(mongolab_bryllupDbNavn, new mongo.Server("ds049537.mongolab.com", 49537), db_options);
+function mongolab_db_client() {
+  return new mongo.Db(mongolab_bryllupDbNavn, new mongo.Server("ds049537.mongolab.com", 49537), db_options); 
+}
+
+function local_db_client() {
+  return new mongo.Db(local_bryllupDbNavn, new mongo.Server("127.0.0.1", 27017), db_options); 
+}
+
+function db_client() {
+  return use_local_db ? local_db_client() : mongolab_db_client(); 
 }
 
 function openDbWithAuth(callback) {
-  var db = mongolab_db();
+  var db = db_client();
   db.open(function (error, p_client) {
-    db.authenticate(mongolab_username, mongolab_pw, function(err, p_client) { 
-      callback(error, db);
-    }); 
+    if (use_local_db) {
+      setTimeout(function() {
+        callback(error, db);  
+      }, 1000);
+      
+    } else {
+      db.authenticate(mongolab_username, mongolab_pw, function(err, p_client) { 
+        callback(error, db);
+      }); 
+    }
   });
 }
 

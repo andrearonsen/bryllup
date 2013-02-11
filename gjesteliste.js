@@ -106,7 +106,7 @@ function leggInnInvitasjonslisteIDB(error, client, invitasjonsliste) {
     });     
 }
 
-function skrivInvitasjonslisteTilDB(invitasjonsliste) {
+function skrivInvitasjonslisteTilDB_Local(invitasjonsliste) {
   local_db.open(function (error, client) {
     leggInnInvitasjonslisteIDB(error, client, invitasjonsliste);
   });
@@ -764,4 +764,5 @@ function invitasjonsliste_gjester() {
 // skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste_gjester);
 
 // skrivInvitasjonslisteTilDB_MongoLabs(brudepar());
-skrivInvitasjonslisteTilDB_MongoLabs(brudepar().concat(invitasjonsliste_gjester()));
+// skrivInvitasjonslisteTilDB_MongoLabs(brudepar().concat(invitasjonsliste_gjester()));
+skrivInvitasjonslisteTilDB_Local(brudepar().concat(invitasjonsliste_gjester()));
