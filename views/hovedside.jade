@@ -46,5 +46,6 @@ head
     script(src='/js/bryllup.js')
     script
       $(document).ready(function() {
+        BRYLLUP.lagreInvitasjon(!{JSON.stringify(invitasjon)});
         BRYLLUP.startHovedside();
       });

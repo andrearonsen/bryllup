@@ -25,8 +25,8 @@ app.configure('development', function(){
 
 app.get('/', routes.index);
 app.get('/hovedside/:invitasjonskode', routes.hovedside);
-
 app.get('/sjekkinvitasjonskode/:invitasjonskode', routes.sjekkinvitasjonskode);
+app.get('/gjestersomkommer', routes.gjestersomkommer);
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {

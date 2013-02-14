@@ -71,6 +71,25 @@ var BRYLLUP = this.BRYLLUP || {};
     win.localStorage.removeItem("invitasjonskode");
   }
 
+  function fjernInvitasjon() {
+    win.localStorage.removeItem("invitasjon");
+  }
+
+  function lagreInvitasjon(invitasjon) {
+    if (invitasjon && (typeof invitasjon === 'object')) {
+      console.log('Lagrer invitasjon fra object.');
+      win.localStorage["invitasjon"] = JSON.stringify(invitasjon);
+    } else if (invitasjon && (typeof invitasjon === 'string')) {
+      console.log('Lagrer invitasjon fra json-string.');
+      win.localStorage["invitasjon"] = invitasjon;
+    } 
+  }
+
+  function hentInvitasjon(invitasjon) {
+    var lagretInvitasjon = win.localStorage["invitasjon"];
+    return lagretInvitasjon ? JSON.parse(lagretInvitasjon) : {};
+  }
+
   function sjekkInvitasjonskode(invitasjonskode) {
     B.visLoadingScreen();
 
@@ -100,6 +119,26 @@ var BRYLLUP = this.BRYLLUP || {};
     }); 
   }
 
+  function hentGjesterSomKommer(callback) {
+    $.ajax({
+      type: 'GET',
+      dataType: 'json',
+      url: "/gjestersomkommer",
+      statusCode: {
+        200: function (gjester_som_kommer) {
+          console.log("Fant " + gjester_som_kommer.length + " gjester som kommer."); 
+          callback(gjester_som_kommer); 
+        },
+        404: function () {
+          console.log("404"); 
+        },
+        500: function () {
+          console.log("500"); 
+        }
+      }
+    });   
+  }
+
   function startIndex() {
     konfigurer();
 
@@ -126,7 +165,8 @@ var BRYLLUP = this.BRYLLUP || {};
 
   function startHovedside() {
     $("#loggut").click(function (e) {
-      fjernInvitasjonskode();  
+      fjernInvitasjonskode(); 
+      fjernInvitasjon(); 
     });
   }
 
@@ -134,4 +174,7 @@ var BRYLLUP = this.BRYLLUP || {};
   B.startHovedside = startHovedside;
   B.fjernInvitasjonskode = fjernInvitasjonskode;
   B.forwardTilIndex = forwardTilIndex;
+  B.lagreInvitasjon = lagreInvitasjon;
+  B.hentInvitasjon = hentInvitasjon;
+  B.hentGjesterSomKommer = hentGjesterSomKommer;
 }(window, jQuery, _, BRYLLUP));

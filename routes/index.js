@@ -1,5 +1,5 @@
 //////////////////////////
-var use_local_db = false;
+var use_local_db = true;
 //////////////////////////
 
 var mongo = require('mongodb');
@@ -45,6 +45,7 @@ function openDbWithAuth(callback) {
 
 function doWithGjestelisteCollection(callback) {
   openDbWithAuth(function (err, db) {
+    if (err) throw err;
     db.collection('gjesteliste', function(err, collection) {
       if (err) log.warn("Error ved opphenting av gjesteliste.");
       callback(err, collection);  
@@ -61,7 +62,40 @@ function hentInvitasjon(invitasjonskode, behandle_invitasjon) {
 function eksistererInvitasjon(invitasjonskode, callback) {
   doWithGjestelisteCollection(function (err, gjesteliste) {
     gjesteliste.count({invitasjonskode: invitasjonskode}, {}, function (err, count) {
-      return callback(err, (count === 1));
+      callback(err, (count === 1));
+    });  
+  });
+}
+
+function gjester(invitasjon) {
+  return fn.compact([invitasjon.gjest1, invitasjon.gjest2, invitasjon.gjest3]);
+}
+
+function gjestKommer(gjest) {
+  return gjest.kommer === 'Ja'; 
+}
+
+function harMinstEnGjestSomKommer(invitasjon) {
+  return fn.any(gjester(invitasjon), gjestKommer);
+}
+
+function printGjest(gjest) {
+  return fn_s.toSentence(fn.compact([gjest.fornavn, gjest.mellomnavn, gjest.etternavn]), " ", " ");
+}
+
+function gjester_til_tekst(invitasjon) {
+  return fn_s.toSentence(fn.filter(gjester(invitasjon), gjestKommer).map(printGjest), ", ", " og ");
+}
+
+function hentAlleGjesterSomKommer(callback) {
+  console.log("Test har minst en: " + harMinstEnGjestSomKommer({gjest1: {kommer : 'Nei'}, gjest2: {kommer : 'Ja'}}));
+  doWithGjestelisteCollection(function (err, gjesteliste) {
+    if (err) throw err;
+    gjesteliste.find().toArray(function (err, alle_invitasjoner) {
+      if (err) throw err;
+      console.log("Alle invitasjoner: " + alle_invitasjoner.length);
+      var invitasjoner = fn.filter(alle_invitasjoner, harMinstEnGjestSomKommer).map(gjester_til_tekst); 
+      callback(err, invitasjoner);
     });  
   });
 }
@@ -69,11 +103,22 @@ function eksistererInvitasjon(invitasjonskode, callback) {
 function berikInvitasjon(invitasjon) {
   invitasjon.tiltale = function () {
     var fornavn = function (gjest) {return gjest.fornavn};
-    var gjester = fn.compact([this.gjest1, this.gjest2, this.gjest3]).map(fornavn);
-    console.log('Gjester: ' + gjester[0]);
-    return fn_s.toSentence(gjester, ", ", " og ");
+    return fn_s.toSentence(gjester(invitasjon).map(fornavn), ", ", " og ");
   };
 }
+
+exports.gjestersomkommer = function (req, res) {
+  console.log("Henter alle gjester som kommer.");
+  hentAlleGjesterSomKommer(function (err, invitasjoner_navn) {
+    if (err) {
+      console.warn('Feil ved lesing fra databasen: ' + err);
+      res.status(500).send('Klarte ikke å hente ut gjestelisten.');   
+    } else {
+      console.log("Fant " + invitasjoner_navn.length + " invitasjoner.");
+      res.send(invitasjoner_navn);
+    }
+  });
+}; 
 
 exports.index = function(req, res) {
   res.sendfile('index.html');
