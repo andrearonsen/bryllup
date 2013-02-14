@@ -40,10 +40,16 @@ head
                 a#loggut(href='/') Logg ut
     .container
       h2 Velkommen til bryllup, #{invitasjon.tiltale()}!
+
+      table#gjester-som-kommer
+        thead 
+          th Gjester som kommer
+
     script(src='/js/jquery.js')
     script(src='/js/underscore.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/bryllup.js')
+    //script(src='/js/bryllup-compiled.js')
     script
       $(document).ready(function() {
         BRYLLUP.lagreInvitasjon(!{JSON.stringify(invitasjon)});

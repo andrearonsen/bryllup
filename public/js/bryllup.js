@@ -168,6 +168,16 @@ var BRYLLUP = this.BRYLLUP || {};
       fjernInvitasjonskode(); 
       fjernInvitasjon(); 
     });
+
+    var tabell = $("#gjester-som-kommer");
+    hentGjesterSomKommer(function (gjester) {
+      gjester.map(function (gjest) {
+        return $("<tr><td>" + gjest + "</td></tr>");
+      }).forEach(function (rad) {
+        rad.appendTo(tabell);
+      });
+      tabell.fadeIn('slow');
+    });
   }
 
   B.startIndex = startIndex;
