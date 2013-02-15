@@ -1,7 +1,7 @@
 #loadingScreen { 
   border: 0; 
   text-align: center;
-  background-color: yellow;
+  /*background-color: yellow;*/
 }
 
 hr.soften {
