@@ -1,5 +1,5 @@
 //////////////////////////
-var use_local_db = true;
+var use_local_db = false;
 //////////////////////////
 
 var mongo = require('mongodb');
