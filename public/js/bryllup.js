@@ -31,6 +31,7 @@ var BRYLLUP = this.BRYLLUP || {};
 
     B.invitasjonskodeInput = $("#invitasjonskodeInput");
     B.sjekkInvitasjonskodeKnapp = $("#sjekkInvitasjonskodeKnapp");
+    B.pacman = $("#pacman");
 
     B.fokusInvitasjonskodeInput = function () {
       B.invitasjonskodeInput.focus();
@@ -43,6 +44,10 @@ var BRYLLUP = this.BRYLLUP || {};
     B.visLoadingScreen = function () {
       console.log('Viser loading screen.');
       loadingScreen.modal('show');
+      // B.pacman.css({'padding-left': 0});
+      B.pacman.animate({'padding-left': '+=500px'}, {
+        duration: 10000
+      });
       B.sjekkInvitasjonskodeKnapp.button('loading');
     };
 
