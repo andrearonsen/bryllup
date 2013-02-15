@@ -118,10 +118,23 @@ exports.gjestersomkommer = function (req, res) {
       res.send(invitasjoner_navn);
     }
   });
+};
+
+exports.gjesteliste = function (req, res) {
+  console.log("Henter gjesteliste");
+  hentAlleGjesterSomKommer(function (err, invitasjoner_navn) {
+    if (err) {
+      console.warn('Feil ved lesing fra databasen: ' + err);
+      res.status(500).send('Klarte ikke å hente ut gjestelisten.');   
+    } else {
+      console.log("Fant " + invitasjoner_navn.length + " invitasjoner.");
+      res.render("gjesteliste", {gjesteliste: invitasjoner_navn});
+    }
+  });
 }; 
 
 exports.index = function(req, res) {
-  res.sendfile('index.html');
+  res.render("index.jade", {});
 };
 
 exports.sjekkinvitasjonskode = function (req, res) {

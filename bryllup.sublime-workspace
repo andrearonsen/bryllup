@@ -11,7 +11,7 @@
 			"file": "web.js",
 			"settings":
 			{
-				"buffer_size": 956,
+				"buffer_size": 1008,
 				"line_ending": "Unix"
 			}
 		},
@@ -19,7 +19,7 @@
 			"file": "views/index.kiwi",
 			"settings":
 			{
-				"buffer_size": 2334,
+				"buffer_size": 0,
 				"line_ending": "Unix"
 			}
 		},
@@ -27,7 +27,7 @@
 			"file": "package.json",
 			"settings":
 			{
-				"buffer_size": 216,
+				"buffer_size": 421,
 				"line_ending": "Unix"
 			}
 		},
@@ -35,7 +35,7 @@
 			"file": "index.html",
 			"settings":
 			{
-				"buffer_size": 2302,
+				"buffer_size": 2435,
 				"line_ending": "Unix"
 			}
 		},
@@ -119,20 +119,22 @@
 					"file": "web.js",
 					"settings":
 					{
-						"buffer_size": 956,
+						"buffer_size": 1008,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								258,
-								258
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -145,7 +147,7 @@
 					"file": "views/index.kiwi",
 					"settings":
 					{
-						"buffer_size": 2334,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
@@ -173,20 +175,22 @@
 					"file": "package.json",
 					"settings":
 					{
-						"buffer_size": 216,
+						"buffer_size": 421,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								209,
-								209
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -199,7 +203,7 @@
 					"file": "index.html",
 					"settings":
 					{
-						"buffer_size": 2302,
+						"buffer_size": 2435,
 						"regions":
 						{
 						},
@@ -207,7 +211,7 @@
 						[
 							[
 								0,
-								2302
+								0
 							]
 						],
 						"settings":
@@ -308,7 +312,7 @@
 		"width": 380.0
 	},
 	"show_minimap": true,
-	"show_open_files": false,
+	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
 	"side_bar_width": 259.0,

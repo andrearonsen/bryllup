@@ -7,6 +7,7 @@ head
     meta(name='description', content='')
     meta(name='author', content='')
     link(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/bryllup.css', rel='stylesheet')
     style
       body {
       padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -23,27 +24,80 @@ head
     link(rel='apple-touch-icon-precomposed', sizes='72x72', href='/ico/apple-touch-icon-72-precomposed.png')
     link(rel='apple-touch-icon-precomposed', href='/ico/apple-touch-icon-57-precomposed.png')
     link(rel='shortcut icon', href='/ico/favicon.png')
-  body
-    .navbar.navbar-inner.navbar-fixed-top
+
+  body(data-spy="scroll", data-target=".navbar")
+    .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container
           a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.brand(href='#') Bryllup 24. august 2013
+          a.brand(href='/') Bryllup 24. august 2013
           .nav-collapse.collapse
             ul.nav
               li.active
-                a(href='#') Hjem
+                a(href='#toppen') Hjem
+              li
+                a(href='#gjesteliste') Gjesteliste  
+              li
+                a(href='#bilder') Bilder
               li
                 a#loggut(href='/') Logg ut
     .container
-      h2 Velkommen til bryllup, #{invitasjon.tiltale()}!
+      #toppen.row-fluid
+        h2 Velkommen til bryllup, #{invitasjon.tiltale()}!
 
-      table#gjester-som-kommer
-        thead 
-          th Gjester som kommer
+        p Introtekst
+
+      hr#gjesteliste.soften
+
+      .row-fluid
+        h2 Gjester
+
+        p Det er invitert 100 gjester, blabla.
+
+        a#vis-gjesteliste(class="btn btn-success btn-large",
+                          role="button", 
+                          data-toggle="modal", 
+                          data-target="#gjesteliste-modal",
+                          href="/gjesteliste") Vis gjesteliste
+
+        #gjesteliste-modal.modal.hide.fade(role="dialog", tabindex="-1")
+
+      hr#bilder.soften
+
+      .row-fluid
+        h2 Bilder
+
+        #bildekarusell.carousel.slide
+          ol.carousel-indicators
+            li.active(data-target='#bildekarusell', data-slide-to='0')
+            li(data-target='#bildekarusell', data-slide-to='1')
+            li(data-target='#bildekarusell', data-slide-to='2')
+        
+          .carousel-inner
+            .active.item
+              img(src="/img/bilde1.jpg")
+              .carousel-caption
+                h4 Kult bilde
+                p Bilde av blabla
+            .item
+              img(src="/img/bilde2.jpg")
+              .carousel-caption
+                h4 Kult bilde
+                p Bilde av blabla
+            .item
+              img(src="/img/bilde3.jpg")
+              .carousel-caption
+                h4 Kult bilde
+                p Bilde av blabla
+
+          a.carousel-control.left(href='#bildekarusell', data-slide='prev') &lsaquo;
+          a.carousel-control.right(href='#bildekarusell', data-slide='next') &rsaquo;
+
+    footer.footer
+      p Laget av André Kvist Aronsen, 2013
 
     script(src='/js/jquery.js')
     script(src='/js/underscore.js')

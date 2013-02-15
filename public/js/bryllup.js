@@ -30,6 +30,7 @@ var BRYLLUP = this.BRYLLUP || {};
     };
 
     B.invitasjonskodeInput = $("#invitasjonskodeInput");
+    B.sjekkInvitasjonskodeKnapp = $("#sjekkInvitasjonskodeKnapp");
 
     B.fokusInvitasjonskodeInput = function () {
       B.invitasjonskodeInput.focus();
@@ -42,11 +43,13 @@ var BRYLLUP = this.BRYLLUP || {};
     B.visLoadingScreen = function () {
       console.log('Viser loading screen.');
       loadingScreen.modal('show');
+      B.sjekkInvitasjonskodeKnapp.button('loading');
     };
 
     B.skjulLoadingScreen = function () {
       console.log('Skjuler loading screen.');
       loadingScreen.modal('hide');
+      B.sjekkInvitasjonskodeKnapp.button('reset');
       B.fokusInvitasjonskodeInput();
     };
   }
@@ -149,7 +152,7 @@ var BRYLLUP = this.BRYLLUP || {};
       return;
     }
 
-    $("#sjekkInvitasjonskodeKnapp").click(function (e) {
+    B.sjekkInvitasjonskodeKnapp.click(function (e) {
       sjekkInvitasjonskode(B.hentVerdiInvitasjonskodeInput());  
     });
 
@@ -169,14 +172,10 @@ var BRYLLUP = this.BRYLLUP || {};
       fjernInvitasjon(); 
     });
 
-    var tabell = $("#gjester-som-kommer");
-    hentGjesterSomKommer(function (gjester) {
-      gjester.map(function (gjest) {
-        return $("<tr><td>" + gjest + "</td></tr>");
-      }).forEach(function (rad) {
-        rad.appendTo(tabell);
-      });
-      tabell.fadeIn('slow');
+    $("#vis-gjesteliste").click(function (e) {
+      var lv_target = $(this).attr('data-target');
+      var lv_url = $(this).attr('href');
+      $(lv_target).load(lv_url);
     });
   }
 

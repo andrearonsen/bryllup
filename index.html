@@ -39,14 +39,15 @@
         <input type="text" id="invitasjonskodeInput" placeholder="Invitasjonskode" autofocus></input>
       </p>
       <p>
-        <a id='sjekkInvitasjonskodeKnapp' class="btn btn-primary btn-large">Sjekk kode</a>
+        <a id='sjekkInvitasjonskodeKnapp' 
+           class="btn btn-primary btn-large"
+           data-loading-text="Laster invitasjon...">Sjekk kode</a>
       </p>
     </div>
 
     <div id="loadingScreen" class="modal hide" data-backdrop="static" data-keyboard="false">
       <img src="/img/ajax-loader.gif" />
     </div>
-
     
     <script src="/js/jquery.js"></script>
     <script src="/js/underscore.js"></script>
