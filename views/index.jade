@@ -7,10 +7,6 @@ head
     meta(name='description', content='Bryllupsside for André og Sarah som gifter seg 24.08.2013')
     meta(name='author', content='')
     link(href='/css/bootstrap.min.css', rel='stylesheet')
-    style
-      body {
-      padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-      }
     link(href='/css/bootstrap-responsive.min.css', rel='stylesheet')
     link(href='/css/bootstrap-modal.css', rel='stylesheet')
     link(href='/css/bryllup.css', rel='stylesheet')
@@ -25,16 +21,18 @@ head
     link(rel='apple-touch-icon-precomposed', sizes='72x72', href='/ico/apple-touch-icon-72-precomposed.png')
     link(rel='apple-touch-icon-precomposed', href='/ico/apple-touch-icon-57-precomposed.png')
     link(rel='shortcut icon', href='/ico/favicon.ico')
+  
   body
-    .hero-unit.row-fluid
-      h1 Velkommen!
-      p Invitasjonskoden finner du på baksiden av invitasjonen.
-      p
-        #meldingContainer
-        input#invitasjonskodeInput(type='text', placeholder='Invitasjonskode', autofocus='autofocus')
-      p
-        a#sjekkInvitasjonskodeKnapp.btn.btn-primary.btn-large(data-loading-text='Laster invitasjon...', autocomplete="off") Sjekk kode
-    
+    .container-fluid
+      .hero-unit
+        h1 Velkommen!
+        p Invitasjonskoden finner du på baksiden av invitasjonen.
+        p
+          #meldingContainer
+          input#invitasjonskodeInput(type='text', placeholder='Invitasjonskode', autofocus='autofocus')
+        p
+          a#sjekkInvitasjonskodeKnapp.btn.btn-primary.btn-large(data-loading-text='Laster invitasjon...', autocomplete="off") Sjekk kode
+
     #loadingScreen.modal.hide(data-backdrop='static', data-keyboard='false')
       img#pacman(src='/img/ajax-loader.gif')
     

@@ -1,7 +1,16 @@
+body {
+  padding-top: 60px;
+}
+
 #loadingScreen { 
   border: 0; 
   text-align: center;
-  /*background-color: yellow;*/
+}
+
+@media(max-width: 480px) {
+  h1 {
+    font-size: 12pt;
+  }
 }
 
 hr.soften {
