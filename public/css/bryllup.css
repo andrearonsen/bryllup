@@ -1,5 +1,9 @@
 body {
-  padding-top: 60px;
+  /*padding-top: 60px;*/
+}
+
+#invitasjonskodeInput {
+  text-transform: uppercase;
 }
 
 #loadingScreen { 
@@ -7,10 +11,45 @@ body {
   text-align: center;
 }
 
-@media(max-width: 480px) {
-  h1 {
-    font-size: 12pt;
+@media screen and (max-width: 800px) {
+  body#index {
+    padding: 0;
   }
+
+  .hero-unit h1 {
+    font-size: 20pt;
+  }
+
+  .hero-unit {
+    font-size: 12pt;
+    padding: 20pt;
+  }
+
+  #invitasjonskodeInput {
+    width: 75%;
+    display: inline-block;
+  }  
+}  
+
+@media only screen and (device-width: 320px) and (orientation: portrait) and not (-webkit-min-device-pixel-ratio: 2) {
+  /* iPhone portrait */
+}
+
+@media only screen and (device-width: 480px) and (orientation: landscape) and not (-webkit-min-device-pixel-ratio: 2) {
+  /* iPhone landscape */
+}
+
+@media only screen and (device-width: 480px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {
+  /* iPhone 4/4S portrait */
+  
+}
+
+@media only screen and (device-width: 960px) and (orientation: landscape) and not (-webkit-min-device-pixel-ratio: 2) {
+  /* Iphone 4/4S Landscape */
+}
+
+@media only screen and (min-device-width: 560px) and (max-device-width: 1136px) and (-webkit-min-device-pixel-ratio: 2) {
+    /* iPhone 5  */
 }
 
 hr.soften {
