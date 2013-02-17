@@ -104,7 +104,12 @@ function berikInvitasjon(invitasjon) {
   invitasjon.tiltale = function () {
     var fornavn = function (gjest) {return gjest.fornavn};
     return fn_s.toSentence(gjester(invitasjon).map(fornavn), ", ", " og ");
-  };
+  }();
+
+  invitasjon.gjester = gjester(invitasjon).map(function (gjest) {
+    gjest.fulltNavn = printGjest(gjest);
+    return gjest;
+  });
 }
 
 exports.gjestersomkommer = function (req, res) {

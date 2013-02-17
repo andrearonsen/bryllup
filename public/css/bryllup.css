@@ -6,13 +6,25 @@ body {
   text-transform: uppercase;
 }
 
+.seksjon {
+  text-align: center;
+}
+
 #loadingScreen { 
   border: 0; 
   text-align: center;
 }
 
+.gjest {
+  text-align: right;
+}
+
 @media screen and (max-width: 800px) {
   body#index {
+    padding: 0;
+  }
+
+  .alert {
     padding: 0;
   }
 

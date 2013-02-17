@@ -1,6 +1,6 @@
 var BRYLLUP = this.BRYLLUP || {};
 
-(function (win, $, _, B) {
+(function (win, $, _, Modernizr, B) {
   "use strict";
 
   var meldingTemplate = '<div id="melding" class="alert">{{tekst}}</div>';
@@ -43,17 +43,17 @@ var BRYLLUP = this.BRYLLUP || {};
 
     B.visLoadingScreen = function () {
       console.log('Viser loading screen.');
-      loadingScreen.modal('show');
+      // loadingScreen.modal('show');
       // B.pacman.css({'padding-left': 0});
-      B.pacman.animate({'padding-left': '+=500px'}, {
-        duration: 10000
-      });
+      // B.pacman.animate({'padding-left': '+=500px'}, {
+      //   duration: 10000
+      // });
       B.sjekkInvitasjonskodeKnapp.button('loading');
     };
 
     B.skjulLoadingScreen = function () {
       console.log('Skjuler loading screen.');
-      loadingScreen.modal('hide');
+      // loadingScreen.modal('hide');
       B.sjekkInvitasjonskodeKnapp.button('reset');
       B.fokusInvitasjonskodeInput();
     };
@@ -67,29 +67,53 @@ var BRYLLUP = this.BRYLLUP || {};
     win.location = "/";  
   }
 
+  function doWithLocalStorage(callback) {
+    try {
+      if (Modernizr.localstorage) {
+        return callback();  
+      }
+    } catch (error) {
+      console.warn("Error in localstorage: " + error);
+    }
+    return undefined;
+  }
+
   function hentLagretInvitasjonskode() {
-    return win.localStorage["invitasjonskode"];
+    return doWithLocalStorage(function () {
+      return win.localStorage["invitasjonskode"]; 
+    });
+    
   }
 
   function lagreInvitasjonskode(invitasjonskode) {
-    win.localStorage["invitasjonskode"] = invitasjonskode;
+    doWithLocalStorage(function () {
+      win.localStorage["invitasjonskode"] = invitasjonskode;
+    }); 
   }
 
   function fjernInvitasjonskode() {
-    win.localStorage.removeItem("invitasjonskode");
+    doWithLocalStorage(function () {
+      win.localStorage.removeItem("invitasjonskode");
+    });  
   }
 
   function fjernInvitasjon() {
-    win.localStorage.removeItem("invitasjon");
+    doWithLocalStorage(function () {
+      win.localStorage.removeItem("invitasjon");
+    });  
   }
 
   function lagreInvitasjon(invitasjon) {
     if (invitasjon && (typeof invitasjon === 'object')) {
       console.log('Lagrer invitasjon fra object.');
-      win.localStorage["invitasjon"] = JSON.stringify(invitasjon);
+      doWithLocalStorage(function () {
+        win.localStorage["invitasjon"] = JSON.stringify(invitasjon);
+      });  
     } else if (invitasjon && (typeof invitasjon === 'string')) {
       console.log('Lagrer invitasjon fra json-string.');
-      win.localStorage["invitasjon"] = invitasjon;
+      doWithLocalStorage(function () {
+        win.localStorage["invitasjon"] = invitasjon;
+      });  
     } 
   }
 
@@ -166,7 +190,7 @@ var BRYLLUP = this.BRYLLUP || {};
         var invitasjonskode = $(this).get(0).value;
         sjekkInvitasjonskode(invitasjonskode);
       }   
-    }).focus();
+    });
     
     B.skjulLoadingScreen();
   }
@@ -191,4 +215,4 @@ var BRYLLUP = this.BRYLLUP || {};
   B.lagreInvitasjon = lagreInvitasjon;
   B.hentInvitasjon = hentInvitasjon;
   B.hentGjesterSomKommer = hentGjesterSomKommer;
-}(window, jQuery, _, BRYLLUP));
+}(window, jQuery, _, Modernizr, BRYLLUP));

@@ -23,9 +23,9 @@ head
     link(rel='shortcut icon', href='/ico/favicon.png')
 
   body(data-spy="scroll", data-target=".navbar")
-    .navbar.navbar-inverse.navbar-fixed-top
+    .navbar.navbar-inverse.navbar-fluid-top
       .navbar-inner
-        .container
+        .container-fluid
           a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
             span.icon-bar
             span.icon-bar
@@ -36,20 +36,42 @@ head
               li.active
                 a(href='#toppen') Hjem
               li
+                a(href='#svar') Svar   
+              li
                 a(href='#gjesteliste') Gjesteliste  
               li
                 a(href='#bilder') Bilder
               li
                 a#loggut(href='/') Logg ut
-    .container
-      #toppen.row-fluid
-        h2 Velkommen til bryllup, #{invitasjon.tiltale()}!
+    .container-fluid
+      #toppen.seksjon
+        h2 Velkommen til bryllup, #{invitasjon.tiltale}!
 
         p Introtekst
 
+      hr#svar.soften  
+
+      .seksjon
+        h2 Svar
+        each gjest in invitasjon.gjester
+          .row-fluid
+            .span11
+              .span4 
+                h5.gjest #{gjest.fulltNavn}
+              .span7.btn-group(data-toggle='buttons-radio')
+                if gjest.kommer === 'Ja'
+                  button.btn.btn-primary.active(type='button') Kommer
+                  button.btn.btn-primary(type='button') Kommer ikke 
+                else if gjest.kommer === 'Nei'
+                  button.btn.btn-primary(type='button') Kommer
+                  button.btn.btn-primary.active(type='button') Kommer ikke  
+                else
+                  button.btn.btn-primary(type='button') Kommer
+                  button.btn.btn-primary(type='button') Kommer ikke
+                      
       hr#gjesteliste.soften
 
-      .row-fluid
+      .seksjon
         h2 Gjester
 
         p Det er invitert 100 gjester, blabla.
@@ -64,7 +86,7 @@ head
 
       hr#bilder.soften
 
-      .row-fluid
+      .seksjon
         h2 Bilder
 
         #bildekarusell.carousel.slide
@@ -94,10 +116,11 @@ head
           a.carousel-control.right(href='#bildekarusell', data-slide='next') &rsaquo;
 
     footer.footer
-      p Laget av André Kvist Aronsen, 2013
+      p Laget av André Kvist Aronsen, &copy; 2013
 
     script(src='/js/jquery.js')
     script(src='/js/underscore.js')
+    script(src='/js/modernizr.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/bryllup.js')
     //script(src='/js/bryllup.min.js')

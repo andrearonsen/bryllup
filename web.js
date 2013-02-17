@@ -13,7 +13,8 @@ app.configure(function() {
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  app.use(express.cookieParser('your secret here'));
+  app.use(express.cookieParser());
+  app.use(express.cookieSession({ secret: 'Bryllupshemmelighet!', cookie: { maxAge: 60 * 60 * 1000 }}));
   app.use(express.session());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));

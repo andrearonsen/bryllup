@@ -29,7 +29,7 @@ head
         p Invitasjonskoden finner du på baksiden av invitasjonen.
         .row-fluid
           #meldingContainer
-          input#invitasjonskodeInput(type='text', placeholder='INVITASJONSKODE', autofocus='autofocus')
+          input#invitasjonskodeInput(type='search', placeholder='INVITASJONSKODE', autofocus='autofocus')
         .row-fluid
           a#sjekkInvitasjonskodeKnapp.btn.btn-primary.btn-large(data-loading-text='Laster invitasjon...', autocomplete="off") Sjekk kode
 
@@ -38,6 +38,7 @@ head
     
     script(src='/js/jquery.js')
     script(src='/js/underscore.js')
+    script(src='/js/modernizr.js')
     script(src='/js/bootstrap.min.js')
     script(src='/js/bootstrap-modal.js')
     script(src='/js/bootstrap-modalmanager.js')
