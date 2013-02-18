@@ -1,5 +1,5 @@
-body {
-  /*padding-top: 60px;*/
+body#hovedside {
+  padding-top: 60px;
 }
 
 #invitasjonskodeInput {
@@ -15,13 +15,17 @@ body {
   text-align: center;
 }
 
-.gjest {
-  text-align: right;
+#gjesteliste-modal {
+  text-align: left;
 }
 
 @media screen and (max-width: 800px) {
   body#index {
     padding: 0;
+  }
+
+  body#hovedside {
+    padding-top: 0;
   }
 
   .alert {

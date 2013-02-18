@@ -22,8 +22,8 @@ head
     link(rel='apple-touch-icon-precomposed', href='/ico/apple-touch-icon-57-precomposed.png')
     link(rel='shortcut icon', href='/ico/favicon.png')
 
-  body(data-spy="scroll", data-target=".navbar")
-    .navbar.navbar-inverse.navbar-fluid-top
+  body#hovedside(data-spy="scroll", data-target=".navbar")
+    .navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container-fluid
           a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
@@ -41,8 +41,10 @@ head
                 a(href='#gjesteliste') Gjesteliste  
               li
                 a(href='#bilder') Bilder
-              li
-                a#loggut(href='/') Logg ut
+            .nav.pull-right
+              a#loggut.btn.btn-primary(href='/') 
+                i.icon-user.icon-white 
+                |  Logg ut, #{invitasjon.tiltale}
     .container-fluid
       #toppen.seksjon
         h2 Velkommen til bryllup, #{invitasjon.tiltale}!
@@ -53,21 +55,20 @@ head
 
       .seksjon
         h2 Svar
-        each gjest in invitasjon.gjester
+        each gjest, i in invitasjon.gjester
           .row-fluid
-            .span11
-              .span4 
-                h5.gjest #{gjest.fulltNavn}
-              .span7.btn-group(data-toggle='buttons-radio')
+            .span12 
+              h5 #{gjest.fulltNavn}
+              .gjest-kommer.btn-group(data-toggle='buttons-radio', data-gjestindex='#{i}')
                 if gjest.kommer === 'Ja'
-                  button.btn.btn-primary.active(type='button') Kommer
-                  button.btn.btn-primary(type='button') Kommer ikke 
+                  button.kommer.btn.btn-primary.active(type='button') Kommer
+                  button.kommer-ikke.btn.btn-primary(type='button') Kommer ikke 
                 else if gjest.kommer === 'Nei'
-                  button.btn.btn-primary(type='button') Kommer
-                  button.btn.btn-primary.active(type='button') Kommer ikke  
+                  button.kommer.btn.btn-primary(type='button') Kommer
+                  button.kommer-ikke.btn.btn-primary.active(type='button') Kommer ikke  
                 else
-                  button.btn.btn-primary(type='button') Kommer
-                  button.btn.btn-primary(type='button') Kommer ikke
+                  button.kommer.btn.btn-primary(type='button') Kommer
+                  button.kommer-ikke.btn.btn-primary(type='button') Kommer ikke
                       
       hr#gjesteliste.soften
 
@@ -126,6 +127,5 @@ head
     //script(src='/js/bryllup.min.js')
     script
       $(document).ready(function() {
-        BRYLLUP.lagreInvitasjon(!{JSON.stringify(invitasjon)});
-        BRYLLUP.startHovedside();
+        BRYLLUP.startHovedside(!{JSON.stringify(invitasjon)});
       });

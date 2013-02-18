@@ -1,8 +1,8 @@
 .modal-header
   button.close(type="button", data-dismiss="modal") x
   h3 Gjester som kommer
-.modal-body
+#gjesteliste-modal.modal-body
   each gjest, i in gjesteliste 
-    p.gjest #{gjest}
+    h5.gjest #{gjest}
 .modal-footer
   a.btn(href="#", data-dismiss="modal") Lukk

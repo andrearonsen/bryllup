@@ -108,18 +108,23 @@ var BRYLLUP = this.BRYLLUP || {};
       console.log('Lagrer invitasjon fra object.');
       doWithLocalStorage(function () {
         win.localStorage["invitasjon"] = JSON.stringify(invitasjon);
-      });  
+      });
+      B.aktuellInvitasjon = invitasjon;  
     } else if (invitasjon && (typeof invitasjon === 'string')) {
       console.log('Lagrer invitasjon fra json-string.');
       doWithLocalStorage(function () {
         win.localStorage["invitasjon"] = invitasjon;
-      });  
-    } 
+      });
+      B.aktuellInvitasjon = JSON.parse(invitasjon); 
+    }
+    return B.aktuellInvitasjon; 
   }
 
   function hentInvitasjon(invitasjon) {
-    var lagretInvitasjon = win.localStorage["invitasjon"];
-    return lagretInvitasjon ? JSON.parse(lagretInvitasjon) : {};
+    return doWithLocalStorage(function () {
+      var lagretInvitasjon = win.localStorage["invitasjon"];
+      return lagretInvitasjon ? JSON.parse(lagretInvitasjon) : {};
+    });  
   }
 
   function sjekkInvitasjonskode(invitasjonskode) {
@@ -171,6 +176,27 @@ var BRYLLUP = this.BRYLLUP || {};
     });   
   }
 
+  function oppdaterKommer(invitasjonskode, gjest_key, kommer) {
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: "/oppdaterkommer",
+      data: {invitasjonskode: invitasjonskode, gjest_key : gjest_key, kommer: kommer},
+      statusCode: {
+        200: function () {
+          console.log("Oppdatert invitasjon " + invitasjonskode + " -> " + gjest_key + ' kommer: ' + kommer);
+          B.aktuellInvitasjon[gjest_key].kommer = kommer;
+        },
+        404: function () {
+          console.log("404"); 
+        },
+        500: function () {
+          console.log("500"); 
+        }
+      }
+    });    
+  }
+
   function startIndex() {
     konfigurer();
 
@@ -195,7 +221,9 @@ var BRYLLUP = this.BRYLLUP || {};
     B.skjulLoadingScreen();
   }
 
-  function startHovedside() {
+  function startHovedside(invitasjon_json) {
+    var invitasjon = lagreInvitasjon(invitasjon_json);
+
     $("#loggut").click(function (e) {
       fjernInvitasjonskode(); 
       fjernInvitasjon(); 
@@ -205,6 +233,24 @@ var BRYLLUP = this.BRYLLUP || {};
       var lv_target = $(this).attr('data-target');
       var lv_url = $(this).attr('href');
       $(lv_target).load(lv_url);
+    });
+
+    $(".gjest-kommer button").click(function (e) {
+      var invitasjonskode = B.aktuellInvitasjon.invitasjonskode;
+      var gjestindex = parseInt($(this).parent().attr('data-gjestindex'));
+      var kommer = $(this).hasClass('kommer');
+      var kommer_ikke = $(this).hasClass('kommer-ikke');
+      var var_aktivert = $(this).hasClass('active');
+
+      var kommer_str = 'ikke_svart';
+      if (kommer && !kommer_ikke) {
+        kommer_str = 'Ja';
+      } else if (kommer_ikke && !kommer) {
+        kommer_str = 'Nei';
+      }
+      
+      var gjest_key = 'gjest' + (gjestindex + 1);
+      oppdaterKommer(invitasjonskode, gjest_key, kommer_str);
     });
   }
 

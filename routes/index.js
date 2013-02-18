@@ -159,6 +159,27 @@ exports.sjekkinvitasjonskode = function (req, res) {
   });
 };
 
+exports.oppdaterkommer = function (req, res) {
+  var invitasjonskode = req.body.invitasjonskode;
+  var gjest_key = req.body.gjest_key;
+  var kommer = req.body.kommer;
+  if (!invitasjonskode || !gjest_key || !kommer) {
+    throw {msg: "Ugyldige parameter: ", parameter: [invitasjonskode, gjest_key, kommer]};
+  }
+
+  var gjest_kommer = gjest_key + '.kommer';
+  var set_kommer = {};
+  set_kommer[gjest_key + '.kommer'] = kommer;
+  doWithGjestelisteCollection(function (err, gjesteliste) {
+    if (err) throw err;
+    gjesteliste.update({invitasjonskode: invitasjonskode}, {$set: set_kommer} ,{safe: true}, function (err) {
+      if (err) throw err;
+      console.log("Oppdatert invitasjon " + invitasjonskode + " -> " + gjest_key + ' kommer: ' + kommer);
+      res.status(200).send("OK");
+    });  
+  }); 
+};
+
 exports.hovedside = function(req, res) {
   var invitasjonskode = req.params.invitasjonskode.toUpperCase();
   hentInvitasjon(invitasjonskode, function(err, item) {
