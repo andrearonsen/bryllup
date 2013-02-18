@@ -19,6 +19,14 @@ body#hovedside {
   text-align: left;
 }
 
+#hovednavbar a:hover {
+  color: #C74375;
+}
+
+h1 {
+  color: #C74375;
+}
+
 @media screen and (max-width: 800px) {
   body#index {
     padding: 0;

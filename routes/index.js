@@ -1,5 +1,5 @@
 //////////////////////////
-var use_local_db = false;
+var use_local_db = true;
 //////////////////////////
 
 var mongo = require('mongodb');
@@ -166,7 +166,7 @@ exports.oppdaterkommer = function (req, res) {
   if (!invitasjonskode || !gjest_key || !kommer) {
     throw {msg: "Ugyldige parameter: ", parameter: [invitasjonskode, gjest_key, kommer]};
   }
-
+  
   var gjest_kommer = gjest_key + '.kommer';
   var set_kommer = {};
   set_kommer[gjest_key + '.kommer'] = kommer;

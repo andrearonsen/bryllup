@@ -23,7 +23,7 @@ head
     link(rel='shortcut icon', href='/ico/favicon.png')
 
   body#hovedside(data-spy="scroll", data-target=".navbar")
-    .navbar.navbar-inverse.navbar-fixed-top
+    #hovednavbar.navbar.navbar-inverse.navbar-fixed-top
       .navbar-inner
         .container-fluid
           a.btn.btn-navbar(data-toggle='collapse', data-target='.nav-collapse')
@@ -34,7 +34,7 @@ head
           .nav-collapse.collapse
             ul.nav
               li.active
-                a(href='#toppen') Hjem
+                a(href='#hovedside') Hjem
               li
                 a(href='#svar') Svar   
               li
@@ -42,38 +42,38 @@ head
               li
                 a(href='#bilder') Bilder
             .nav.pull-right
-              a#loggut.btn.btn-primary(href='/') 
+              button#loggut.btn.btn-success(href='/') 
                 i.icon-user.icon-white 
                 |  Logg ut, #{invitasjon.tiltale}
     .container-fluid
-      #toppen.seksjon
-        h2 Velkommen til bryllup, #{invitasjon.tiltale}!
+      .seksjon
+        h1 Velkommen til bryllup, #{invitasjon.tiltale}!
 
         p Introtekst
 
       hr#svar.soften  
 
       .seksjon
-        h2 Svar
+        h2 Svar innen 15. juni 2013
         each gjest, i in invitasjon.gjester
           .row-fluid
             .span12 
               h5 #{gjest.fulltNavn}
               .gjest-kommer.btn-group(data-toggle='buttons-radio', data-gjestindex='#{i}')
                 if gjest.kommer === 'Ja'
-                  button.kommer.btn.btn-primary.active(type='button') Kommer
-                  button.kommer-ikke.btn.btn-primary(type='button') Kommer ikke 
+                  button.kommer.btn.btn-success.active(type='button') Kommer
+                  button.kommer-ikke.btn.btn-success(type='button') Kommer ikke 
                 else if gjest.kommer === 'Nei'
-                  button.kommer.btn.btn-primary(type='button') Kommer
-                  button.kommer-ikke.btn.btn-primary.active(type='button') Kommer ikke  
+                  button.kommer.btn.btn-success(type='button') Kommer
+                  button.kommer-ikke.btn.btn-success.active(type='button') Kommer ikke  
                 else
-                  button.kommer.btn.btn-primary(type='button') Kommer
-                  button.kommer-ikke.btn.btn-primary(type='button') Kommer ikke
+                  button.kommer.btn.btn-success(type='button') Kommer
+                  button.kommer-ikke.btn.btn-success(type='button') Kommer ikke
                       
       hr#gjesteliste.soften
 
       .seksjon
-        h2 Gjester
+        h2 Gjester som kommer
 
         p Det er invitert 100 gjester, blabla.
 
