@@ -176,6 +176,33 @@ var BRYLLUP = this.BRYLLUP || {};
     });   
   }
 
+  function oppdaterGjestFelt(url, invitasjonskode, gjest_key, felt, felt_verdi) {
+    var data = {invitasjonskode : invitasjonskode, gjest_key : gjest_key};
+    data[felt] = felt_verdi;
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: url,
+      data: data,
+      statusCode: {
+        200: function () {
+          console.log("Oppdatert invitasjon " + invitasjonskode + " -> " + gjest_key + ' felt [' + felt + "] = " + felt_verdi);
+          B.aktuellInvitasjon[gjest_key][felt] = felt_verdi;
+        },
+        404: function () {
+          console.log("404"); 
+        },
+        500: function () {
+          console.log("500"); 
+        }
+      }
+    });    
+  }
+
+  function oppdaterKommentar(invitasjonskode, gjest_key, kommentar) {
+    oppdaterGjestFelt('/oppdaterkommentar', invitasjonskode, gjest_key, 'kommentar', kommentar);
+  }
+
   function oppdaterKommer(invitasjonskode, gjest_key, kommer) {
     $.ajax({
       type: 'POST',
@@ -195,6 +222,33 @@ var BRYLLUP = this.BRYLLUP || {};
         }
       }
     });    
+  }
+
+  function initGoogleMaps() {
+    console.log('Initializing Google Maps element.');
+    
+    var mapOptions = {
+        zoom: 8,
+        center: new google.maps.LatLng(-34.397, 150.644),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    
+    B.kart = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);  
+  }
+
+  B.initGoogleMaps = initGoogleMaps;
+
+  function loadGoogleMaps() {
+    console.log('Loading Google Maps script.');
+
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyCiBzXAv4sNqDkEL5UgAeq1ZSV7IkuABgc&sensor=false&callback=BRYLLUP.initGoogleMaps";
+    document.body.appendChild(script);
+
+    $('.map').on('shown', function () { 
+      google.maps.event.trigger(map, 'resize'); 
+    });
   }
 
   function startIndex() {
@@ -252,6 +306,16 @@ var BRYLLUP = this.BRYLLUP || {};
       var gjest_key = 'gjest' + (gjestindex + 1);
       oppdaterKommer(invitasjonskode, gjest_key, kommer_str);
     });
+
+    $(".gjest-kommentar").change(function () {
+      var invitasjonskode = B.aktuellInvitasjon.invitasjonskode;
+      var gjestindex = parseInt($(this).attr('data-gjestindex'));
+      var gjest_key = 'gjest' + (gjestindex + 1);
+      var kommentar = $(this).get(0).value;
+      oppdaterKommentar(invitasjonskode, gjest_key, kommentar);
+    });
+
+    _.defer(loadGoogleMaps);
   }
 
   B.startIndex = startIndex;

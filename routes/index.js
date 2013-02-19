@@ -1,5 +1,5 @@
 //////////////////////////
-var use_local_db = true;
+var use_local_db = false;
 //////////////////////////
 
 var mongo = require('mongodb');
@@ -159,6 +159,27 @@ exports.sjekkinvitasjonskode = function (req, res) {
   });
 };
 
+function oppdaterGjestFelt(req, res, felt) {
+  var invitasjonskode = req.body.invitasjonskode;
+  var gjest_key = req.body.gjest_key;
+  var felt_verdi = req.body[felt];
+  if (!invitasjonskode || !gjest_key || !felt_verdi) {
+    throw {msg: "Ugyldige parameter: ", parameter: [invitasjonskode, gjest_key, felt_verdi]};
+  }
+
+  var gjest_felt_key = gjest_key + '.' + felt;
+  var set_felt = {};
+  set_felt[gjest_felt_key] = felt_verdi;
+  doWithGjestelisteCollection(function (err, gjesteliste) {
+    if (err) throw err;
+    gjesteliste.update({invitasjonskode: invitasjonskode}, {$set: set_felt}, {safe: true}, function (err) {
+      if (err) throw err;
+      console.log("Oppdatert invitasjon " + invitasjonskode + " -> " + gjest_key + ' felt [' + felt + "] = " + felt_verdi);
+      res.status(200).send("OK");
+    });  
+  });   
+}
+
 exports.oppdaterkommer = function (req, res) {
   var invitasjonskode = req.body.invitasjonskode;
   var gjest_key = req.body.gjest_key;
@@ -166,7 +187,7 @@ exports.oppdaterkommer = function (req, res) {
   if (!invitasjonskode || !gjest_key || !kommer) {
     throw {msg: "Ugyldige parameter: ", parameter: [invitasjonskode, gjest_key, kommer]};
   }
-  
+
   var gjest_kommer = gjest_key + '.kommer';
   var set_kommer = {};
   set_kommer[gjest_key + '.kommer'] = kommer;
@@ -178,6 +199,10 @@ exports.oppdaterkommer = function (req, res) {
       res.status(200).send("OK");
     });  
   }); 
+};
+
+exports.oppdaterkommentar = function (req, res) {
+  oppdaterGjestFelt(req, res, 'kommentar');
 };
 
 exports.hovedside = function(req, res) {

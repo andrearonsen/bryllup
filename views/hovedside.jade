@@ -45,7 +45,7 @@ head
               button#loggut.btn.btn-success(href='/') 
                 i.icon-user.icon-white 
                 |  Logg ut, #{invitasjon.tiltale}
-    .container-fluid
+    .container-fluid(style="height: 100%")
       .seksjon
         h1 Velkommen til bryllup, #{invitasjon.tiltale}!
 
@@ -56,7 +56,7 @@ head
       .seksjon
         h2 Svar innen 15. juni 2013
         each gjest, i in invitasjon.gjester
-          .row-fluid
+          .gjest.row-fluid
             .span12 
               h5 #{gjest.fulltNavn}
               .gjest-kommer.btn-group(data-toggle='buttons-radio', data-gjestindex='#{i}')
@@ -69,6 +69,12 @@ head
                 else
                   button.kommer.btn.btn-success(type='button') Kommer
                   button.kommer-ikke.btn.btn-success(type='button') Kommer ikke
+              
+                .tudelu                  
+                  input.gjest-kommentar(type='text', 
+                                      placeholder='Kommentarer/Spesielle behov', 
+                                      data-gjestindex='#{i}', 
+                                      value="#{gjest.kommentar}")
                       
       hr#gjesteliste.soften
 
@@ -84,6 +90,12 @@ head
                           href="/gjesteliste") Vis gjesteliste
 
         #gjesteliste-modal.modal.hide.fade(role="dialog", tabindex="-1")
+
+      hr#kart.soften
+
+      .seksjon
+        h2 Veibeskrivelse
+        #map_canvas
 
       hr#bilder.soften
 
@@ -117,7 +129,7 @@ head
           a.carousel-control.right(href='#bildekarusell', data-slide='next') &rsaquo;
 
     footer.footer
-      p Laget av André Kvist Aronsen, &copy; 2013
+      p Håndlaget av André Kvist Aronsen, &copy; 2013
 
     script(src='/js/jquery.js')
     script(src='/js/underscore.js')

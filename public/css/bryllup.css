@@ -23,6 +23,28 @@ body#hovedside {
   color: #C74375;
 }
 
+#kart_canvas { 
+  height: 100%;
+  width: 100%;
+  max-width: none; 
+}
+
+#kart_canvas img {
+  max-width: none;
+  width: auto; 
+  display:inline; 
+}
+
+#kart_canvas label { 
+  width: auto; 
+  display:inline; 
+} 
+
+.gjest-kommentar {
+  padding-top: 20px;
+  padding-bottom: 10pt;
+}
+
 h1 {
   color: #C74375;
 }

@@ -30,6 +30,7 @@ app.get('/sjekkinvitasjonskode/:invitasjonskode', routes.sjekkinvitasjonskode);
 app.get('/gjestersomkommer', routes.gjestersomkommer);
 app.get('/gjesteliste', routes.gjesteliste);
 app.post('/oppdaterkommer', routes.oppdaterkommer);
+app.post('/oppdaterkommentar', routes.oppdaterkommentar);
 
 var port = process.env.PORT || 5000;
 app.listen(port, function() {

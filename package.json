@@ -1,6 +1,6 @@
 {
   "name": "bryllup-fagerliearonsen",
-  "version": "0.0.1-44",
+  "version": "0.0.1-46",
   "dependencies": {
     "mongodb": "1.2.11",
     "express": "3.1.x",
