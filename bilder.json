@@ -1,0 +1,17 @@
+{"bilder" : [
+  {
+    "navn": "bilde1.jpg",
+    "overskrift" : "Conrad bader",
+    "tekst" : "Her tar Conrad et lite bad."
+  }, 
+  {
+    "navn" : "bilde2.jpg",
+    "overskrift" : "Conrad bader 2",
+    "tekst" : "Her tar Conrad et lite bad 2."
+  }, 
+  {
+    "navn": "bilde3.jpg" ,
+    "overskrift" : "Conrad bader 3",
+    "tekst" : "Her tar Conrad et lite bad 3."
+  }
+]}

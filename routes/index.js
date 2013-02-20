@@ -1,7 +1,8 @@
 //////////////////////////
 var use_local_db = false;
 //////////////////////////
-
+var http = require('http');
+var fs = require('fs');
 var mongo = require('mongodb');
 var fn = require('underscore');
 var fn_s = require('underscore.string');
@@ -137,6 +138,77 @@ exports.gjesteliste = function (req, res) {
     }
   });
 }; 
+
+function lesBilderJson(callbackBilderErLest) {
+  // http.get("http://www.fagerliearonsen.com/bilder.json", function(res) {
+  //   console.log("Got response: " + res.statusCode);
+  //   res.on('data', function (chunk) {
+  //     console.log('BODY: ' + chunk);
+  //     callback(chunk);
+  //   });
+  // }).on('error', function(e) {
+  //   console.log("Klarte ikke å lese bilder.json: " + e.message);
+  //   // Fallback lokal fil:
+  //   fs.readFile('bilder.json', 'utf8', function (err, data) {
+  //     if (err) {
+  //       return console.log(err);
+  //     }
+  //     console.log(data);
+  //   });
+  // }); 
+
+  var options = {
+    host: 'www.fagerliearonsen.com',
+    path: '/bilder.json'
+  };
+
+  var callback = function(response) {
+    var str = '';
+
+    //another chunk of data has been recieved, so append it to `str`
+    response.on('data', function (chunk) {
+      str += chunk;
+    });
+
+    //the whole response has been recieved, so we just print it out here
+    response.on('end', function () {
+      console.log(str);
+      callbackBilderErLest(str);
+    });
+  }
+
+  http.request(options, callback).end();
+}
+
+exports.bildekarusell = function (req, res) {
+  console.log("Henter bildekarusell");
+  if (!req.params.devicewidth) {
+    res.status(500).send("Devicewidth er påkrevd.");
+    return;
+  }
+  var devicewidth = parseInt(req.params.devicewidth);
+  console.log("Bildekarusell: " + devicewidth)
+
+  var widthMap = [
+    { p: function (w) {return w <= 800;}, imageWidth: '800' },                // iPhone
+    { p: function (w) {return w > 800 && w <= 1200;}, imageWidth: '1200' },   // LowRes/iPad
+    { p: function (w) {return w > 1200 && w <= 1600;}, imageWidth: '1600' },  // Highres
+    { p: function (w) {return w > 1600;}, imageWidth: '3000' }                // MB Retina
+  ];
+
+  var matchingWidth = fn.find(widthMap, function (kategory) { return kategory.p(devicewidth); });
+  var baseurl = "http://www.fagerliearonsen.com/" + matchingWidth.imageWidth + "/";
+  
+  lesBilderJson(function (bilderJson) {
+    console.log("Bilder: " + bilderJson);
+    var bilder = fn.map(JSON.parse(bilderJson).bilder, function (bilde) {
+      bilde.url = baseurl + bilde.navn;
+      return bilde;
+    });
+    res.render('bildekarusell.jade', {bilder : bilder});
+  });
+};
+
 
 exports.index = function(req, res) {
   res.render("index.jade", {});

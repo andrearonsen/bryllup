@@ -316,6 +316,9 @@ var BRYLLUP = this.BRYLLUP || {};
     });
 
     _.defer(loadGoogleMaps);
+    _.defer(function () {
+      $("#bilder").load("/bildekarusell/" + win.screen.width);
+    });
   }
 
   B.startIndex = startIndex;

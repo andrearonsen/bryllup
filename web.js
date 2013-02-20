@@ -29,6 +29,7 @@ app.get('/hovedside/:invitasjonskode', routes.hovedside);
 app.get('/sjekkinvitasjonskode/:invitasjonskode', routes.sjekkinvitasjonskode);
 app.get('/gjestersomkommer', routes.gjestersomkommer);
 app.get('/gjesteliste', routes.gjesteliste);
+app.get('/bildekarusell/:devicewidth', routes.bildekarusell);
 app.post('/oppdaterkommer', routes.oppdaterkommer);
 app.post('/oppdaterkommentar', routes.oppdaterkommentar);
 
