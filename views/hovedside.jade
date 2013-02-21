@@ -6,7 +6,8 @@ head
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
     meta(name='description', content='Bryllupsside for André og Sarah som gifter seg den 24.08.2013')
     meta(name='author', content='André Kvist Aronsen')
-    link(href='/css/bootstrap.min.css', rel='stylesheet')  
+    link(href='/css/bootstrap.min.css', rel='stylesheet') 
+    style(type="text/css") body {padding-top: 60px;} 
     link(href='/css/bootstrap-responsive.min.css', rel='stylesheet')
     link(href='/css/bootstrap-modal.css', rel='stylesheet')
     link(href='/css/bryllup.css', rel='stylesheet')
@@ -70,11 +71,9 @@ head
                   button.kommer.btn.btn-success(type='button') Kommer
                   button.kommer-ikke.btn.btn-success(type='button') Kommer ikke
               
-                .tudelu                  
-                  input.gjest-kommentar(type='text', 
-                                      placeholder='Kommentarer/Spesielle behov', 
-                                      data-gjestindex='#{i}', 
-                                      value="#{gjest.kommentar}")
+                .kommentar                  
+                  textarea.gjest-kommentar(placeholder='Kommentarer/Spesielle behov', 
+                                           data-gjestindex='#{i}') #{gjest.kommentar}
                       
       hr#gjesteliste.soften
 
@@ -93,13 +92,18 @@ head
 
       hr#kart.soften
 
-      .seksjon
+      #kartseksjon.seksjon
         h2 Veibeskrivelse
-        #map_canvas
+
+        p Vielsen finner sted i Mortensrud Kirke, Helga Vaneks Vei 15, 1281 Oslo.
+        p Festen er på terrassen til Miles, Bislettgata 4, 0170 Oslo.
+        p Posisjonene er markert på kartet under.
+
+        #kart_canvas
 
       hr#bilder.soften
 
-      .seksjon
+      #bildeseksjon.seksjon
         h2 Bilder
 
         #bilder

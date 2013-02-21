@@ -226,20 +226,63 @@ var BRYLLUP = this.BRYLLUP || {};
 
   function initGoogleMaps() {
     console.log('Initializing Google Maps element.');
-    
+    // https://maps.google.com/maps/ms?msid=218041799752383192256.0004d60e1d6b7c3e23a12&msa=0&ll=59.88842,10.782051&spn=0.143476,0.444603
+    //https://maps.google.com/maps/ms?msid=218041799752383192256.0004d60e1d6b7c3e23a12&msa=0&ll=59.888592,10.849686&spn=0.095593,0.060768
+    var isMobile = win.screen.width < 767;
+    // var latlng_desktop = new google.maps.LatLng(59.888592, 10.849686);
+    // var latlng_mobile = new google.maps.LatLng(59.88842,10.782051);
+    var center_latlng = new google.maps.LatLng(59.88842,10.782051);
+    var zoom = isMobile ? 10 : 12;
     var mapOptions = {
-        zoom: 8,
-        center: new google.maps.LatLng(-34.397, 150.644),
-        mapTypeId: google.maps.MapTypeId.ROADMAP
+        zoom: zoom,
+        center: center_latlng,
+        mapTypeId: google.maps.MapTypeId.HYBRID
     };
     
-    B.kart = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);  
+    B.kart = new google.maps.Map(document.getElementById("kart_canvas"), mapOptions); 
+
+    var kirke_latlng = new google.maps.LatLng(59.847266,10.831965);
+    var kirke_icon = '/ico/kirke.png';
+    var marker_kirke = new google.maps.Marker({
+      position: kirke_latlng,
+      map: B.kart,
+      animation: google.maps.Animation.BOUNCE,
+      icon: kirke_icon,
+      title: "Mortensrud Kirke"
+    });
+
+    var miles_latlng = new google.maps.LatLng(59.924431,10.731964);
+    var fest_icon = '/ico/fest.png';
+    var marker_miles = new google.maps.Marker({
+      position: miles_latlng,
+      map: B.kart,
+      animation: google.maps.Animation.BOUNCE,
+      icon: fest_icon,
+      title: "Miles Oslo AS"
+    });
+
+    var toggleBounce = function (marker) {
+      return function () {
+        if (marker.getAnimation() != null) {
+          marker.setAnimation(null);
+        } else {
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
+      };
+    }
+    google.maps.event.addListener(marker_kirke, 'click', toggleBounce(marker_kirke));
+    google.maps.event.addListener(marker_miles, 'click', toggleBounce(marker_miles));
+
+    B.kart.set('scrollwheel', false);
   }
 
   B.initGoogleMaps = initGoogleMaps;
 
   function loadGoogleMaps() {
     console.log('Loading Google Maps script.');
+
+    // var max_size = win.screen.width / 3;
+    // $("#kart_canvas").css('max-width', max_size).css('max-height', max_size);
 
     var script = document.createElement("script");
     script.type = "text/javascript";
@@ -328,4 +371,5 @@ var BRYLLUP = this.BRYLLUP || {};
   B.lagreInvitasjon = lagreInvitasjon;
   B.hentInvitasjon = hentInvitasjon;
   B.hentGjesterSomKommer = hentGjesterSomKommer;
+  B.loadGoogleMaps = loadGoogleMaps;
 }(window, jQuery, _, Modernizr, BRYLLUP));

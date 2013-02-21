@@ -177,7 +177,16 @@ function lesBilderJson(callbackBilderErLest) {
     });
   }
 
-  http.request(options, callback).end();
+  http.request(options, callback).on('error', function(e) {
+    console.log("Klarte ikke å lese bilder.json fra danmark: " + e.message);
+    // Fallback lokal fil:
+    fs.readFile('bilder.json', 'utf8', function (err, data) {
+      if (err) {
+        console.log(err);
+      }
+      console.log(data);
+    });
+  }).end();
 }
 
 exports.bildekarusell = function (req, res) {
