@@ -1,5 +1,5 @@
 //////////////////////////
-var use_local_db = false;
+var use_local_db = true;
 //////////////////////////
 var http = require('http');
 var fs = require('fs');

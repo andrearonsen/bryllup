@@ -1,5 +1,8 @@
 var mongo = require('mongodb');
 
+//mongo localhost:27017/bryllup
+//mongo ds049537.mongolab.com:49537/nodejitsu_andrearonsen_nodejitsudb7379247420 -u nodejitsu_andrearonsen -p 5kn803s0rp2nrpt3r4cplahs7u
+
 var db_options = {w: 1, native_parser: true};
 var mongolab_username = "nodejitsu_andrearonsen";
 var mongolab_pw = "5kn803s0rp2nrpt3r4cplahs7u";
@@ -85,7 +88,7 @@ function printInvitasjonsliste(liste) {
 function printDatabaseListe(liste) {
   liste.map(lagInvitasjonForDB).forEach(function (invitasjon) {
     var gjester = fn.compact([invitasjon.gjest1, invitasjon.gjest2, invitasjon.gjest3]);
-    console.log('[' + invitasjon.invitasjonskode + ']: ' + fn_s.toSentence(gjester.map(printGjest), ", ", " og "));
+    console.log('[' + invitasjon.invitasjonskode + ']: ' + fn_s.toSentence(gjester.map(printGjest), ", ", " og ") + " Adresse[" + fn_s.toSentence(invitasjon.adresse, ', ', ', ') + ']');
   });
 }
 
@@ -97,16 +100,15 @@ function leggInnInvitasjonslisteIDB(error, client, invitasjonsliste) {
       if (err) throw err;
     });
     
-    var liste_db = invitasjonsliste.map(lagInvitasjonForDB);
-    gjesteliste.insert(liste_db, function(err, docs) {
+    gjesteliste.insert(invitasjonsliste, function(err, docs) {
       if (err) console.warn(err.message);
       else console.log('Lagt inn ' + invitasjonsliste.length + ' invitasjoner.');
       client.close();
-      printDatabaseListe(liste_db);
     });     
 }
 
 function skrivInvitasjonslisteTilDB_Local(invitasjonsliste) {
+  console.log('Skriver gjesteliste til lokal DB...');
   local_db.open(function (error, client) {
     leggInnInvitasjonslisteIDB(error, client, invitasjonsliste);
   });
@@ -114,6 +116,7 @@ function skrivInvitasjonslisteTilDB_Local(invitasjonsliste) {
 
 
 function skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste) {
+  console.log('Skriver gjesteliste til Mongolabs DB...');
   mongolab_db.open(function (error, p_client) {
     mongolab_db.authenticate(mongolab_username, mongolab_pw, function(err, p_client) { 
       leggInnInvitasjonslisteIDB(error, mongolab_db, invitasjonsliste);
@@ -137,7 +140,11 @@ function brudepar() {
       kommer: 'Ja',
       kommentar: 'Brura.'
     },
-    invitasjonskode: 'hymenslenker'  
+    adresse: [
+      'Stubs vei 3',
+      '1440 Drøbak'
+    ],
+    invitasjonskode: 'HYMENSLENKER'  
   }];
 }  
 
@@ -149,7 +156,15 @@ function invitasjonsliste_gjester() {
       fornavn: 'Berit',
       etternavn: 'Løvig',
       kommer: 'Ja'
-    }
+    },
+    gjest2: {
+      fornavn: 'Carsten',
+      etternavn: 'Gnutzmann'
+    },
+    adresse: [
+      'Vestsolveien 4',
+      '1555 Son'
+    ]
   },
 
   {
@@ -162,7 +177,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Vigdis',
       etternavn: 'Aronsen',
       kommer: 'Ja'
-    }
+    },
+    adresse: [
+      'Tamburvegen 4',
+      '3911 Porsgrunn'
+    ]
   },
 
   {
@@ -176,7 +195,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Kathrine',
       etternavn: 'Holene',
       kommer: 'Ja'
-    }
+    },
+    adresse: [
+      'Oscarsgt. 16',
+      '1776 Halden'
+    ]
   },
 
   // BESTEFORELDRE:
@@ -184,14 +207,22 @@ function invitasjonsliste_gjester() {
     gjest1 : {
       fornavn: 'Åse',
       etternavn: 'Johansen',
-    }
+    },
+    adresse: [
+      'Yngves vei 19',
+      '3913 Porsgrunn'
+    ]
   },
 
   {
     gjest1 : {
       fornavn: 'Solfrid',
       etternavn: 'Aronsen',
-    }
+    },
+    adresse: [
+      'Thor Heyerdahls gate 64',
+      '3259 Larvik'
+    ]
   }, 
 
   // SØSKEN
@@ -204,7 +235,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Maren Kathrine',
       etternavn: 'Raiby'
-    }
+    },
+    adresse: [
+      'Oscarsgt. 16',
+      '1776 Halden'
+    ]
   },
 
   {
@@ -216,7 +251,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Lise Katrine',
       etternavn: 'Kähler'
-    }
+    },
+    adresse: [
+      'Mellomila 34',
+      '7018 Trondheim'
+    ]
   },
 
   {
@@ -228,7 +267,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Stein Rino',
       etternavn: 'Hansen'
-    }
+    },
+    adresse: [
+      'Gneisveien 10',
+      '1784 Halden'
+    ]
   },
 
   {
@@ -239,7 +282,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Sverre',
       etternavn: 'Huse-Fagerlie'
-    }
+    },
+    adresse: [
+      'Orredalen 2',
+      '1920 Sørumsand'
+    ]
   },
 
   // ONKLER OG TANTER
@@ -251,7 +298,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Astrid',
       etternavn: 'Halmøy'
-    }
+    },
+    adresse: [
+      'Badehusgata 6',
+      '1440 Drøbak'
+    ]
   },
  
   {
@@ -262,7 +313,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Trine Lise',
       etternavn: 'Aronsen'
-    }
+    },
+    adresse: [
+      'Kastanjeveien 9',
+      '3151 Tolvsrød'
+    ]
   },
 
   {
@@ -274,7 +329,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Solfrid',
       mellomnavn: 'Midtvik',
       etternavn: 'Aronsen'
-    }
+    },
+    adresse: [
+      'Torstvedtbakken 1',
+      '3271 Larvik'
+    ]
   },
 
   {
@@ -285,7 +344,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Odd',
       etternavn: 'Brandt'
-    }
+    },
+    adresse: [
+      'Kringsjå terrasse 2 B',
+      '1777 Halden'
+    ]
   },
 
   {
@@ -296,7 +359,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Bengt',
       etternavn: 'Fagerlie'
-    }
+    },
+    adresse: [
+      'Grønlia',
+      '1782 Halden'
+    ]
   },
 
   {
@@ -307,7 +374,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Judith',
       etternavn: 'Bjørkli'
-    }
+    },
+    adresse: [
+      'Grønlia',
+      '1784 Halden'
+    ]
   },
 
   // SØSKENBARN
@@ -320,7 +391,12 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Anders',
       etternavn: 'Berg'
-    }
+    },
+    adresse: [
+      'Sjællandsgade 3b 1tv',
+      '9800 Hjørring',
+      'Danmark'
+    ]
   },
 
   {
@@ -332,7 +408,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Steinar',
       etternavn: 'Ognedal'
-    }
+    },
+    adresse: [
+      'Storhaug allé 19',
+      '4015 Stavanger'
+    ]
   },
 
   {
@@ -343,7 +423,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Toril',
       etternavn: 'Midttun'
-    }
+    },
+    adresse: [
+      'Duevegen 12',
+      '9015 Tromsø'
+    ]
   },
 
   {
@@ -354,7 +438,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Helene',
       etternavn: 'Pedersen'
-    }
+    },
+    adresse: [
+      'Sofies gate 65 B',
+      '0168 Oslo'
+    ]
   },
 
   {
@@ -362,7 +450,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Christoffer',
       mellomnavn: 'Narten',
       etternavn: 'Johansen'
-    }
+    },
+    adresse: [
+      'Fagerborggata 6 A',
+      '0360 Oslo'
+    ]
   },
 
   {
@@ -374,7 +466,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Anders',
       mellomnavn: 'Hareide',
       etternavn: 'Holt'
-    }
+    },
+    adresse: [
+      'Smedsrudveien 24 C',
+      '1405 Langhus'
+    ]
   },
 
   {
@@ -386,7 +482,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Kjersti',
       etternavn: 'Dahl'
-    }
+    },
+    adresse: [
+      'Husebyveien 10 A',
+      '2020 Skedsmokorset'
+    ]
   },
 
   {
@@ -394,7 +494,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Kim Halvard',
       mellomnavn: 'Midtvik',
       etternavn: 'Aronsen'
-    }
+    },
+    adresse: [
+      'Sofies gate 65 B',
+      '0168 Oslo'
+    ]
   },
 
   {
@@ -402,7 +506,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Kristina',
       mellomnavn: 'Midtvik',
       etternavn: 'Aronsen'
-    }
+    },
+    adresse: [
+      'Fastings gate 1 A',
+      '0358 Oslo'
+    ]
   },
 
   {
@@ -413,7 +521,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Odd Morten',
       etternavn: 'Degnæs'
-    }
+    },
+    adresse: [
+      'Maridalsveien 33',
+      '0175 Oslo'
+    ]
   },
 
   {
@@ -424,7 +536,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Lars',
       etternavn: 'Berntzen'
-    }
+    },
+    adresse: [
+      'Birkebeinerveien 11',
+      '1532 Moss'
+    ]
   },
 
   {
@@ -435,18 +551,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Hanne',
       etternavn: 'Brandt'
-    }
-  },
-
-  {
-    gjest1 : {
-      fornavn: 'Morten',
-      etternavn: 'Brandt'
     },
-    gjest2 : {
-      fornavn: 'Hanne',
-      etternavn: 'Brandt'
-    }
+    adresse: [
+      'Gimleveien 58',
+      '1786 Halden'
+    ]
   },
 
   {
@@ -455,9 +564,13 @@ function invitasjonsliste_gjester() {
       etternavn: 'Fagerlie'
     },
     gjest2 : {
-      fornavn: 'Hanne',
+      fornavn: 'Anita',
       etternavn: 'Fagerlie'
-    }
+    },
+    adresse: [
+      'Fjordgløttveien 13',
+      '1765 Halden'
+    ]
   },
 
   {
@@ -468,7 +581,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Gro',
       etternavn: 'Fagerlie'
-    }
+    },
+    adresse: [
+      'Snarveien 3',
+      '1791 Tistedal'
+    ]
   },
 
   // VENNER
@@ -482,7 +599,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Martin',
       etternavn: 'Weydahl'
-    }
+    },
+    adresse: [
+      'Skorkeberg allé 20 A',
+      '1440 Drøbak'
+    ]
   },
 
   {
@@ -493,7 +614,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Sindre Alexander',
       etternavn: 'Andresen'
-    }
+    },
+    adresse: [
+      'Ullerudfaret 19',
+      '1447 Drøbak'
+    ]
   },
 
   {
@@ -505,14 +630,22 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Clas',
       etternavn: 'Fischer'
-    }
+    },
+    adresse: [
+      'Bergkrystallen 3 A',
+      '1155 Oslo'
+    ]
   },
 
   {
     gjest1 : {
       fornavn: 'Ingrid',
       etternavn: 'Martinsen'
-    }
+    },
+    adresse: [
+      'Pilestredet Park 5',
+      '0176 Oslo'
+    ]
   },
 
   {
@@ -520,7 +653,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Berit Kaspara',
       mellomnavn: 'Signete',
       etternavn: 'Fredheim'
-    }
+    },
+    adresse: [
+      'Gylteveien 16',
+      '1443 Drøbak'
+    ]
   },
 
   {
@@ -531,7 +668,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Johan',
       etternavn: '???etternavn'
-    }
+    },
+    adresse: [
+      'Krusebyveien 70',
+      '1540 Vestby'
+    ]
   },
 
   {
@@ -542,7 +683,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Gabriela',
       etternavn: 'Bienkunska'
-    }
+    },
+    adresse: [
+      'Jordstjerneveien 27 D',
+      '1283 Oslo'
+    ]
   },
 
   {
@@ -553,7 +698,12 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Christian',
       etternavn: 'Zeiger'
-    }
+    },
+    adresse: [
+      'Rotermundstraße 6',
+      'DE-30165 Hannover',
+      'Germany'
+    ]
   },
 
   {
@@ -564,7 +714,12 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Teresa',
       etternavn: 'Perner'
-    }
+    },
+    adresse: [
+      'Dahlemstraße 26',
+      'DE-63741 Aschaffenburg-Damm',
+      'Germany'
+    ]
   },
 
   {
@@ -576,7 +731,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Glenn',
       etternavn: 'Thørn'
-    }
+    },
+    adresse: [
+      'Skogsegglia 9',
+      '2019 Skedsmokorset'
+    ]
   },
 
   {
@@ -589,7 +748,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Andreas',
       mellomnavn: 'Solbakken',
       etternavn: 'Barli'
-    }
+    },
+    adresse: [
+      'pinnerudvegen 51',
+      '2390 Moelv'
+    ]
   },
 
   {
@@ -600,14 +763,22 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Jørn Erik',
       etternavn: 'Ahlsen'
-    }
+    },
+    adresse: [
+      'Liljeveien 3',
+      '1450 Nesoddtangen'
+    ]
   },
 
   {
     gjest1 : {
       fornavn: 'Anne-Helene',
       etternavn: 'Kulia'
-    }
+    },
+    adresse: [
+      'St Olavs vei 19 B',
+      '4631 Kristiansand S'
+    ]
   },
 
   {
@@ -616,10 +787,13 @@ function invitasjonsliste_gjester() {
       etternavn: 'Ulstein'
     },
     gjest2 : {
-      fornavn: '???fornavn',
-      mellomnavn: 'Kimaro',
-      etternavn: 'Ulstein'
-    }
+      fornavn: 'Keneth Rafaeli',
+      etternavn: 'Kimaro'
+    },
+    adresse: [
+      'Dynekilgt. 9E',
+      '0569 Oslo'
+    ]
   },
 
   {
@@ -630,14 +804,22 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Toril',
       etternavn: 'Sande'
-    }
+    },
+    adresse: [
+      'Rugdevegen 25 C',
+      '2609 Lillehammer'
+    ]
   },
 
   {
     gjest1 : {
       fornavn: 'Trond Einar',
       etternavn: 'Edvardsen'
-    }
+    },
+    adresse: [
+      'Bakken 14',
+      '9017 Tromsø'
+    ]
   },
 
   {
@@ -649,7 +831,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Trine',
       mellomnavn: 'Frestad',
       etternavn: 'Bakkevik'
-    }
+    },
+    adresse: [
+      'Røyskattveien 16',
+      '1615 Fredrikstad'
+    ]
   },
 
   {
@@ -661,7 +847,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Tommy',
       etternavn: 'Pedersen'
-    }
+    },
+    adresse: [
+      'Båtstangveien 63 C',
+      '3230 Sandefjord'
+    ]
   },
 
   {
@@ -673,14 +863,24 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Laila',
       etternavn: 'Tønder'
-    }
+    },
+    adresse: [
+      'Helgesens gate 84 D',
+      '0563 Oslo'
+    ]
   },
 
   {
     gjest1 : {
       fornavn: 'Kim Erik',
       etternavn: 'Hang'
-    }
+    },
+    adresse: [
+      'Nord Norges Ortopediske Verksted',
+      'v/Kim Erik Hang',
+      'Mellomvn. 23',
+      '9009 Tromsø'
+    ]
   },
 
   {
@@ -689,9 +889,13 @@ function invitasjonsliste_gjester() {
       etternavn: 'Torgersen'
     },
     gjest2 : {
-      fornavn: 'Lizzy',
+      fornavn: 'Lissy',
       etternavn: 'Sommer'
-    }
+    },
+    adresse: [
+      'Veksthusfløtten 24',
+      '0594 Oslo'
+    ]
   },
 
   {
@@ -702,7 +906,11 @@ function invitasjonsliste_gjester() {
     gjest2 : {
       fornavn: 'Tormod',
       etternavn: 'Bergström'
-    }
+    },
+    adresse: [
+      'Frydenlundveien 24',
+      '1784 Halden'
+    ]
   },
 
   {
@@ -715,7 +923,11 @@ function invitasjonsliste_gjester() {
       fornavn: 'Synne',
       mellomnavn: 'Ødegaarden',
       etternavn: 'Aarbø'
-    }
+    },
+    adresse: [
+      'Nordstrandveien 81',
+      '1164 Oslo'
+    ]
   },
 
   {
@@ -728,34 +940,12 @@ function invitasjonsliste_gjester() {
       fornavn: 'Henning',
       etternavn: 'Friis'
     },
-    gjest3 : {
-      fornavn: 'Herman',
-      etternavn: 'Friis'
-    }
-  },
-
-  {
-    gjest1 : {
-      fornavn: 'Birgitte',
-      etternavn: 'Friis'
-    },
-    gjest2 : {
-      fornavn: 'Fredrik',
-      etternavn: 'Dahl'
-    }
-  },
-
-  {
-    gjest1 : {
-      fornavn: 'Helene',
-      etternavn: 'Friis'
-    },
-    gjest2 : {
-      fornavn: 'Einar',
-      mellomnavn: 'Aaby',
-      etternavn: 'Hirsch'
-    }
+    adresse: [
+      'Kringkollen 20 C',
+      '0690 Oslo'
+    ]
   }
+
   ];
 }
 
@@ -764,5 +954,8 @@ function invitasjonsliste_gjester() {
 // skrivInvitasjonslisteTilDB_MongoLabs(invitasjonsliste_gjester);
 
 // skrivInvitasjonslisteTilDB_MongoLabs(brudepar());
-// skrivInvitasjonslisteTilDB_MongoLabs(brudepar().concat(invitasjonsliste_gjester()));
-skrivInvitasjonslisteTilDB_Local(brudepar().concat(invitasjonsliste_gjester()));
+var liste_db = brudepar().concat(invitasjonsliste_gjester()).map(lagInvitasjonForDB);
+printDatabaseListe(liste_db);
+
+skrivInvitasjonslisteTilDB_MongoLabs(liste_db);
+skrivInvitasjonslisteTilDB_Local(liste_db);

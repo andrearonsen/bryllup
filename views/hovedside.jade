@@ -39,22 +39,24 @@ head
               li
                 a(href='#svar') Svar   
               li
-                a(href='#gjesteliste') Gjesteliste  
+                a(href='#gjesteliste') Gjesteliste 
+              li
+                a(href='#mat') Mat    
               li
                 a(href='#bilder') Bilder
             .nav.pull-right
               button#loggut.btn.btn-success(href='/') 
                 i.icon-user.icon-white 
                 |  Logg ut, #{invitasjon.tiltale}
-    .container-fluid(style="height: 100%")
-      .seksjon
+    .container-fluid(style="height: 100%;")
+      #velkommenseksjon.seksjon
         h1 Velkommen til bryllup, #{invitasjon.tiltale}!
 
         p Introtekst
 
       hr#svar.soften  
 
-      .seksjon
+      #svarseksjon.seksjon
         h2 Svar innen 15. juni 2013
         each gjest, i in invitasjon.gjester
           .gjest.row-fluid
@@ -77,7 +79,7 @@ head
                       
       hr#gjesteliste.soften
 
-      .seksjon
+      #gjestelisteseksjon.seksjon
         h2 Gjester som kommer
 
         p Det er invitert 100 gjester, blabla.
@@ -101,15 +103,25 @@ head
 
         #kart_canvas
 
+      hr#mat.soften
+
+      #matseksjon.seksjon
+        h2 Mat og drikke
+
+        p Det serveres helgrillet lam med tilbehør.
+        p Hvis det er spesielle behov (vegetarianer, laktoseintolerant, søliaki, etc.), så legges dette inn i kommentarfeltet.
+
       hr#bilder.soften
 
       #bildeseksjon.seksjon
         h2 Bilder
 
-        #bilder
+        p Her vil det legges inn bilder fra bryllupsdagen :)
 
-    footer.footer
-      p Håndlaget av André Kvist Aronsen, &copy; 2013
+        #bildekarusell
+
+      footer.footer
+        p Håndlaget av André Kvist Aronsen, &copy; 2013
 
     script(src='/js/jquery.js')
     script(src='/js/underscore.js')

@@ -274,6 +274,7 @@ var BRYLLUP = this.BRYLLUP || {};
     google.maps.event.addListener(marker_miles, 'click', toggleBounce(marker_miles));
 
     B.kart.set('scrollwheel', false);
+    // B.kart.set('draggable', false);
   }
 
   B.initGoogleMaps = initGoogleMaps;
@@ -319,11 +320,14 @@ var BRYLLUP = this.BRYLLUP || {};
   }
 
   function startHovedside(invitasjon_json) {
+    console.log('Starter hovedside...');
     var invitasjon = lagreInvitasjon(invitasjon_json);
 
     $("#loggut").click(function (e) {
+      console.log("Logger ut " + invitasjon.invitasjonskode);
       fjernInvitasjonskode(); 
-      fjernInvitasjon(); 
+      fjernInvitasjon();
+      forwardTilIndex(); 
     });
 
     $("#vis-gjesteliste").click(function (e) {
@@ -360,7 +364,7 @@ var BRYLLUP = this.BRYLLUP || {};
 
     _.defer(loadGoogleMaps);
     _.defer(function () {
-      $("#bilder").load("/bildekarusell/" + win.screen.width);
+      $("#bildekarusell").load("/bildekarusell/" + win.screen.width);
     });
   }
 
