@@ -1,12 +1,13 @@
 {
   "name": "bryllup-fagerliearonsen",
-  "version": "0.0.1-53",
+  "version": "0.0.1-65",
   "dependencies": {
     "mongodb": "1.2.11",
     "express": "3.1.x",
     "jade": "latest",
     "underscore": "latest",
-    "underscore.string": "latest"
+    "underscore.string": "latest",
+    "jquery": "latest"
   },
   "engines": {
     "node": "0.8.x",

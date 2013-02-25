@@ -1,11 +1,12 @@
 //////////////////////////
-var use_local_db = true;
+var use_local_db = false;
 //////////////////////////
 var http = require('http');
 var fs = require('fs');
 var mongo = require('mongodb');
 var fn = require('underscore');
 var fn_s = require('underscore.string');
+var jQuery = require('jquery');
 
 var db_options = {w: 1, native_parser: true};
 var mongolab_username = "nodejitsu_andrearonsen";

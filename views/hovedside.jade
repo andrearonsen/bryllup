@@ -39,9 +39,11 @@ head
               li
                 a(href='#svar') Svar   
               li
-                a(href='#gjesteliste') Gjesteliste 
+                a(href='#gjesteliste') Gjesteliste
               li
-                a(href='#mat') Mat    
+                a(href='#viktiginfo') Viktig informasjon
+              li
+                a(href='#spilleliste') Spilleliste       
               li
                 a(href='#bilder') Bilder
               li
@@ -97,6 +99,26 @@ head
 
         #gjesteliste-modal.modal.hide.fade(role="dialog", tabindex="-1")
 
+      hr#viktiginfo.soften
+
+      #viktiginfoseksjon.seksjon
+        h1 Viktig informasjon
+        h2 Nøkkelpersoner
+        p Prest: Trond Løberg, tlf. 23629983, epost: trond.loberg@oslo.kirken.no
+        p Her vil det legges inn flere nøkkelpersoner etterhvert.
+
+        h2 Tidsplan
+        p 14.30: Vielse i Mortensrud Kirke
+        p fra ca. 15:30: Mottakelse på Miles-terrassen
+        p 18:30: Mat + fest
+
+        h2 Mat og drikke
+        p Det serveres helgrillet lam med tilbehør.
+        p Hvis det er spesielle behov (vegetarianer, laktoseintolerant, søliaki, etc.), så legges dette inn i kommentarfeltet under den gjesten det gjelder.
+
+        h2 Ønskeliste
+        p Vi ønsker oss først og fremst pengegaver til vår bryllupsreise.
+
       hr#kart.soften
 
       #kartseksjon.seksjon
@@ -104,7 +126,7 @@ head
 
         p Vielsen finner sted i Mortensrud Kirke, Helga Vaneks Vei 15, 1281 Oslo.
         p Festen er på terrassen til Miles, Bislettgata 4, 0170 Oslo.
-        p Posisjonene er markert på kartet under.
+        p De nøyaktive geo-posisjonene er markert på kartet under.
         p
           button#zoomut.btn.btn-success(type='button') Zoom ut
           button#zoomkirke.btn.btn-success(type='button') Zoom inn Kirke
@@ -113,13 +135,20 @@ head
 
         #kart_canvas
 
-      hr#mat.soften
+      hr#spilleliste.soften
 
-      #matseksjon.seksjon
-        h2 Mat og drikke
+      #spillelisteseksjon.seksjon
+        h2 Spilleliste
 
-        p Det serveres helgrillet lam med tilbehør.
-        p Hvis det er spesielle behov (vegetarianer, laktoseintolerant, søliaki, etc.), så legges dette inn i kommentarfeltet.
+        p Vi har opprettet et rom på Soundrop hvor alle kan legge til og stemme opp sanger som skal spilles på bryllupsfesten.
+        p De som ikke er på Spotify kan legge igjen en kommentar nederst på siden med musikkønske, så blir det lagt til i spillelisten.
+
+        p
+          iframe#spilleliste-soundrop(src='', width='100%', height='750', frameborder='0', 
+               webkitallowfullscreen='webkitAllowFullScreen', 
+               mozallowfullscreen='mozallowfullscreen', 
+               allowfullscreen='allowFullScreen')
+
 
       hr#bilder.soften
 
@@ -127,6 +156,10 @@ head
         h2 Bilder
 
         p Her vil det legges inn bilder fra bryllupsdagen :)
+
+        p Send oss gjerne bilder fra bryllupsfesten på 
+          a(href='mailto:bryllup@fagerliearonsen.com') bryllup@fagerliearonsen.com
+          | , så legger vi det ut på denne siden.
 
         #bildekarusell
 

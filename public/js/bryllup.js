@@ -298,7 +298,7 @@ var BRYLLUP = this.BRYLLUP || {};
 
     $('#zoomkirke').click(function (e) {
       B.kart.setCenter(kirke_latlng);
-      B.kart.setZoom(isMobile ? 14 : 16);
+      B.kart.setZoom(isMobile ? 17 : 19);
     });
 
     $('#zoomfest').click(function (e) {
@@ -407,6 +407,9 @@ var BRYLLUP = this.BRYLLUP || {};
       $("#bildekarusell").load("/bildekarusell/" + win.screen.width);
     });
     _.defer(loadDisqus);
+    _.defer(function () {
+      $("#spilleliste-soundrop").attr("src", "http://open.soundrop.fm/s/WfbyfxXz7Q1hrSi8");
+    });
   }
 
   B.startIndex = startIndex;

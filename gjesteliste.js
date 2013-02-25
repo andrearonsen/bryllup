@@ -667,7 +667,7 @@ function invitasjonsliste_gjester() {
     },
     gjest2 : {
       fornavn: 'Johan',
-      etternavn: '???etternavn'
+      etternavn: 'Lundh'
     },
     adresse: [
       'Krusebyveien 70',
