@@ -222,7 +222,7 @@ var BRYLLUP = this.BRYLLUP || {};
         }
       }
     });    
-  }
+  } 
 
   function initGoogleMaps() {
     console.log('Initializing Google Maps element.');
@@ -252,13 +252,23 @@ var BRYLLUP = this.BRYLLUP || {};
     });
 
     var miles_latlng = new google.maps.LatLng(59.924431,10.731964);
-    var fest_icon = '/ico/fest.png';
+    var miles_icon = '/ico/fest.png';
     var marker_miles = new google.maps.Marker({
       position: miles_latlng,
       map: B.kart,
       animation: google.maps.Animation.BOUNCE,
-      icon: fest_icon,
+      icon: miles_icon,
       title: "Miles Oslo AS"
+    });
+
+    var hotell_latlng = new google.maps.LatLng(59.918660, 10.733699);
+    var hotell_icon = '/ico/hotell.png';
+    var marker_hotell = new google.maps.Marker({
+      position: hotell_latlng,
+      map: B.kart,
+      animation: google.maps.Animation.BOUNCE,
+      icon: hotell_icon,
+      title: "Radisson Blu Scandinavia Hotel Oslo"
     });
 
     var toggleBounce = function (marker) {
@@ -272,9 +282,34 @@ var BRYLLUP = this.BRYLLUP || {};
     }
     google.maps.event.addListener(marker_kirke, 'click', toggleBounce(marker_kirke));
     google.maps.event.addListener(marker_miles, 'click', toggleBounce(marker_miles));
+    google.maps.event.addListener(marker_hotell, 'click', toggleBounce(marker_hotell));
+
+    $('.map').on('shown', function () { 
+      google.maps.event.trigger(B.kart, 'resize'); 
+    });
 
     B.kart.set('scrollwheel', false);
     // B.kart.set('draggable', false);
+
+    $('#zoomut').click(function (e) {
+      B.kart.setCenter(center_latlng);
+      B.kart.setZoom(zoom);
+    });
+
+    $('#zoomkirke').click(function (e) {
+      B.kart.setCenter(kirke_latlng);
+      B.kart.setZoom(isMobile ? 14 : 16);
+    });
+
+    $('#zoomfest').click(function (e) {
+      B.kart.setCenter(miles_latlng);
+      B.kart.setZoom(isMobile ? 17 : 19);  
+    });
+
+    $('#zoomhotell').click(function (e) {
+      B.kart.setCenter(hotell_latlng);
+      B.kart.setZoom(isMobile ? 17 : 19);    
+    });
   }
 
   B.initGoogleMaps = initGoogleMaps;
@@ -289,10 +324,15 @@ var BRYLLUP = this.BRYLLUP || {};
     script.type = "text/javascript";
     script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyCiBzXAv4sNqDkEL5UgAeq1ZSV7IkuABgc&sensor=false&callback=BRYLLUP.initGoogleMaps";
     document.body.appendChild(script);
+  }
 
-    $('.map').on('shown', function () { 
-      google.maps.event.trigger(map, 'resize'); 
-    });
+  function loadDisqus() {
+    var disqus_shortname = 'bryllupfagerliearonsen'; 
+    var dsq = document.createElement('script'); 
+    dsq.type = 'text/javascript'; 
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
   }
 
   function startIndex() {
@@ -366,6 +406,7 @@ var BRYLLUP = this.BRYLLUP || {};
     _.defer(function () {
       $("#bildekarusell").load("/bildekarusell/" + win.screen.width);
     });
+    _.defer(loadDisqus);
   }
 
   B.startIndex = startIndex;

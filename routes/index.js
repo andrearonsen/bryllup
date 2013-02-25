@@ -111,6 +111,7 @@ function berikInvitasjon(invitasjon) {
     gjest.fulltNavn = printGjest(gjest);
     return gjest;
   });
+  invitasjon.antallGjester = invitasjon.gjester.length;
 }
 
 exports.gjestersomkommer = function (req, res) {
@@ -140,23 +141,6 @@ exports.gjesteliste = function (req, res) {
 }; 
 
 function lesBilderJson(callbackBilderErLest) {
-  // http.get("http://www.fagerliearonsen.com/bilder.json", function(res) {
-  //   console.log("Got response: " + res.statusCode);
-  //   res.on('data', function (chunk) {
-  //     console.log('BODY: ' + chunk);
-  //     callback(chunk);
-  //   });
-  // }).on('error', function(e) {
-  //   console.log("Klarte ikke å lese bilder.json: " + e.message);
-  //   // Fallback lokal fil:
-  //   fs.readFile('bilder.json', 'utf8', function (err, data) {
-  //     if (err) {
-  //       return console.log(err);
-  //     }
-  //     console.log(data);
-  //   });
-  // }); 
-
   var options = {
     host: 'www.fagerliearonsen.com',
     path: '/bilder.json'

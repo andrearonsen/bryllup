@@ -44,6 +44,8 @@ head
                 a(href='#mat') Mat    
               li
                 a(href='#bilder') Bilder
+              li
+                a(href='#kommentarer') Kommentarer  
             .nav.pull-right
               button#loggut.btn.btn-success(href='/') 
                 i.icon-user.icon-white 
@@ -52,12 +54,15 @@ head
       #velkommenseksjon.seksjon
         h1 Velkommen til bryllup, #{invitasjon.tiltale}!
 
-        p Introtekst
+        p Denne siden inneholder alt #{invitasjon.antallGjester == 1 ? 'du' : 'dere'}
+        | trenger å vite om bryllupet den 24. august!
 
       hr#svar.soften  
 
       #svarseksjon.seksjon
         h2 Svar innen 15. juni 2013
+        p Legg gjerne inn evt. kommentarer og spesielle behov i feltet under hver gjest.
+
         each gjest, i in invitasjon.gjester
           .gjest.row-fluid
             .span12 
@@ -82,7 +87,7 @@ head
       #gjestelisteseksjon.seksjon
         h2 Gjester som kommer
 
-        p Det er invitert 100 gjester, blabla.
+        p Her vises en oppdatert liste over alle gjester som har takket ja til å komme i bryllupet.
 
         a#vis-gjesteliste(class="btn btn-success btn-large",
                           role="button", 
@@ -100,6 +105,11 @@ head
         p Vielsen finner sted i Mortensrud Kirke, Helga Vaneks Vei 15, 1281 Oslo.
         p Festen er på terrassen til Miles, Bislettgata 4, 0170 Oslo.
         p Posisjonene er markert på kartet under.
+        p
+          button#zoomut.btn.btn-success(type='button') Zoom ut
+          button#zoomkirke.btn.btn-success(type='button') Zoom inn Kirke
+          button#zoomfest.btn.btn-success(type='button') Zoom inn Fest
+          button#zoomhotell.btn.btn-success(type='button') Zoom inn Hotell
 
         #kart_canvas
 
@@ -119,6 +129,18 @@ head
         p Her vil det legges inn bilder fra bryllupsdagen :)
 
         #bildekarusell
+
+      hr#kommentarer.soften
+      
+      #kommentarseksjon.seksjon
+        h2 Kommentarer
+
+        #disqus_thread
+      
+        a.dsq-brlink(href='http://disqus.com')
+          | comments powered by
+          span.logo-disqus Disqus
+  
 
       footer.footer
         p Håndlaget av André Kvist Aronsen, &copy; 2013

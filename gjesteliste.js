@@ -957,5 +957,5 @@ function invitasjonsliste_gjester() {
 var liste_db = brudepar().concat(invitasjonsliste_gjester()).map(lagInvitasjonForDB);
 printDatabaseListe(liste_db);
 
-skrivInvitasjonslisteTilDB_MongoLabs(liste_db);
-skrivInvitasjonslisteTilDB_Local(liste_db);
+// skrivInvitasjonslisteTilDB_MongoLabs(liste_db);
+// skrivInvitasjonslisteTilDB_Local(liste_db);
