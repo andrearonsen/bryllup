@@ -452,8 +452,8 @@ function invitasjonsliste_gjester() {
       etternavn: 'Johansen'
     },
     adresse: [
-      'Fagerborggata 6 A',
-      '0360 Oslo'
+      'Gardeveien 2A',
+      '0363 Oslo'
     ]
   },
 

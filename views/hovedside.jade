@@ -41,9 +41,11 @@ head
               li
                 a(href='#gjesteliste') Gjesteliste
               li
-                a(href='#viktiginfo') Viktig informasjon
+                a(href='#viktiginfo') Info
               li
-                a(href='#spilleliste') Spilleliste       
+                a(href='#kart') Kart  
+              li
+                a(href='#spilleliste') Musikk       
               li
                 a(href='#bilder') Bilder
               li
@@ -56,19 +58,26 @@ head
       #velkommenseksjon.seksjon
         h1 Velkommen til bryllup, #{invitasjon.tiltale}!
 
-        p Denne siden inneholder alt #{invitasjon.antallGjester == 1 ? 'du' : 'dere'}
-        | trenger å vite om bryllupet den 24. august!
+        p.lead Denne siden inneholder alt #{invitasjon.antallGjester == 1 ? 'du' : 'dere'} trenger å vite om bryllupet den 24. august!
 
       hr#svar.soften  
 
       #svarseksjon.seksjon
         h2 Svar innen 15. juni 2013
-        p Legg gjerne inn evt. kommentarer og spesielle behov i feltet under hver gjest.
+        p.lead Legg gjerne inn evt. kommentarer og spesielle behov i feltet under hver gjest.
 
         each gjest, i in invitasjon.gjester
           .gjest.row-fluid
-            .span12 
-              h5 #{gjest.fulltNavn}
+            .span12
+              if gjest.kommer === 'Ja' 
+                p.gjest-fulltnavn.text-success
+                  strong #{gjest.fulltNavn}
+              else if gjest.kommer === 'Nei'
+                p.gjest-fulltnavn.text-error
+                  strong #{gjest.fulltNavn}
+              else
+                p.gjest-fulltnavn.text-warning    
+                  strong #{gjest.fulltNavn}
               .gjest-kommer.btn-group(data-toggle='buttons-radio', data-gjestindex='#{i}')
                 if gjest.kommer === 'Ja'
                   button.kommer.btn.btn-success.active(type='button') Kommer
@@ -89,7 +98,7 @@ head
       #gjestelisteseksjon.seksjon
         h2 Gjester som kommer
 
-        p Her vises en oppdatert liste over alle gjester som har takket ja til å komme i bryllupet.
+        p.lead Her vises en oppdatert liste over alle gjester som har takket ja til å komme i bryllupet.
 
         a#vis-gjesteliste(class="btn btn-success btn-large",
                           role="button", 
@@ -103,18 +112,22 @@ head
 
       #viktiginfoseksjon.seksjon
         h1 Viktig informasjon
+        p.lead Her finnes oppdatert nøkkelinformasjon om bryllupet.
+
         h2 Nøkkelpersoner
-        p Prest: Trond Løberg, tlf. 23629983, epost: trond.loberg@oslo.kirken.no
-        p Her vil det legges inn flere nøkkelpersoner etterhvert.
+        p Her vil det legges inn viktige nøkkelpersoner etterhvert som de blir kjent.
 
         h2 Tidsplan
         p 14.30: Vielse i Mortensrud Kirke
-        p fra ca. 15:30: Mottakelse på Miles-terrassen
+        p fra ca. 16:00: Mottakelse på Miles-terrassen. Det vil bli servert sprudlevann og snacks.
         p 18:30: Mat + fest
 
         h2 Mat og drikke
         p Det serveres helgrillet lam med tilbehør.
         p Hvis det er spesielle behov (vegetarianer, laktoseintolerant, søliaki, etc.), så legges dette inn i kommentarfeltet under den gjesten det gjelder.
+
+        h2 Overnatting
+        p Brudeparet skal overnatte på Radisson Blu Hotell ved Holbergsplass. Det er ca. 10 min gange fra festen.
 
         h2 Ønskeliste
         p Vi ønsker oss først og fremst pengegaver til vår bryllupsreise.
@@ -123,15 +136,42 @@ head
 
       #kartseksjon.seksjon
         h2 Veibeskrivelse
+        p.lead Her finner #{invitasjon.antallGjester == 1 ? 'du' : 'dere'} adresser, veibeskrivelser og geoposisjon til de viktige lokasjonene. 
 
-        p Vielsen finner sted i Mortensrud Kirke, Helga Vaneks Vei 15, 1281 Oslo.
-        p Festen er på terrassen til Miles, Bislettgata 4, 0170 Oslo.
+        h3 Vielse
+        p Kirken ligger i gåavstand fra Mortensrud T-bane.
+
+        address
+          strong Mortensrud Kirke
+          br 
+          | Helga Vaneks Vei 15
+          br
+          | 1281 Oslo
+        button#zoomkirke.btn.btn-success(type='button') Zoom inn Kirke  
+
+        h3 Fest 
+        p Festen holdes på penthouse-terrassen til Miles ved Bislett Stadion. Inngangen er i bakgården, altså ikke mot Stadion.
+        p Middagen blir holdt ute på terrassen, så det kan være lurt å ta med varme klær i tilfelle det blir kaldt. 
+        address
+          strong Miles Oslo AS
+          br 
+          | Bislettgata 4
+          br
+          | 0170 Oslo 
+        button#zoomfest.btn.btn-success(type='button') Zoom inn Fest
+
+        h3 Overnatting
+        address
+          strong Radisson Blu Scandinavia Hotel Oslo
+          br 
+          | Holbergsgate 30
+          br
+          | 0166 Oslo
+        button#zoomhotell.btn.btn-success(type='button') Zoom inn Hotell  
+
         p De nøyaktive geo-posisjonene er markert på kartet under.
         p
           button#zoomut.btn.btn-success(type='button') Zoom ut
-          button#zoomkirke.btn.btn-success(type='button') Zoom inn Kirke
-          button#zoomfest.btn.btn-success(type='button') Zoom inn Fest
-          button#zoomhotell.btn.btn-success(type='button') Zoom inn Hotell
 
         #kart_canvas
 
@@ -140,10 +180,10 @@ head
       #spillelisteseksjon.seksjon
         h2 Spilleliste
 
-        p Vi har opprettet et rom på Soundrop hvor alle kan legge til og stemme opp sanger som skal spilles på bryllupsfesten.
+        p.lead Vi har opprettet et rom på Soundrop hvor alle kan legge til og stemme opp sanger som skal spilles på bryllupsfesten.
         p De som ikke er på Spotify kan legge igjen en kommentar nederst på siden med musikkønske, så blir det lagt til i spillelisten.
 
-        p
+        #sounddrop-container
           iframe#spilleliste-soundrop(src='', width='100%', height='750', frameborder='0', 
                webkitallowfullscreen='webkitAllowFullScreen', 
                mozallowfullscreen='mozallowfullscreen', 
@@ -155,7 +195,7 @@ head
       #bildeseksjon.seksjon
         h2 Bilder
 
-        p Her vil det legges inn bilder fra bryllupsdagen :)
+        p.lead Her vil det legges inn bilder fra bryllupsdagen :)
 
         p Send oss gjerne bilder fra bryllupsfesten på 
           a(href='mailto:bryllup@fagerliearonsen.com') bryllup@fagerliearonsen.com
@@ -167,6 +207,8 @@ head
       
       #kommentarseksjon.seksjon
         h2 Kommentarer
+
+        p.lead Legg gjerne igjen kommentarer, musikkønsker o.l. her!
 
         #disqus_thread
       

@@ -298,7 +298,7 @@ var BRYLLUP = this.BRYLLUP || {};
 
     $('#zoomkirke').click(function (e) {
       B.kart.setCenter(kirke_latlng);
-      B.kart.setZoom(isMobile ? 17 : 19);
+      B.kart.setZoom(isMobile ? 15 : 17);
     });
 
     $('#zoomfest').click(function (e) {
@@ -377,17 +377,28 @@ var BRYLLUP = this.BRYLLUP || {};
     });
 
     $(".gjest-kommer button").click(function (e) {
+      var $denne = $(this);
       var invitasjonskode = B.aktuellInvitasjon.invitasjonskode;
-      var gjestindex = parseInt($(this).parent().attr('data-gjestindex'));
-      var kommer = $(this).hasClass('kommer');
-      var kommer_ikke = $(this).hasClass('kommer-ikke');
-      var var_aktivert = $(this).hasClass('active');
+      var gjestindex = parseInt($denne.parent().attr('data-gjestindex'));
+      var kommer = $denne.hasClass('kommer');
+      var kommer_ikke = $denne.hasClass('kommer-ikke');
+      var var_aktivert = $denne.hasClass('active');
+
+      var $gjest_navn = $denne.parent().siblings(".gjest-fulltnavn")
+                          .removeClass("text-warning")
+                          .removeClass("text-error")
+                          .removeClass("text-success");
+      console.log("GjestNavnJquery:" + $gjest_navn);
 
       var kommer_str = 'ikke_svart';
       if (kommer && !kommer_ikke) {
         kommer_str = 'Ja';
+        $gjest_navn.addClass("text-success");
       } else if (kommer_ikke && !kommer) {
         kommer_str = 'Nei';
+        $gjest_navn.addClass("text-error");
+      } else {
+        $gjest_navn.addClass("text-warning");
       }
       
       var gjest_key = 'gjest' + (gjestindex + 1);
@@ -408,7 +419,13 @@ var BRYLLUP = this.BRYLLUP || {};
     });
     _.defer(loadDisqus);
     _.defer(function () {
-      $("#spilleliste-soundrop").attr("src", "http://open.soundrop.fm/s/WfbyfxXz7Q1hrSi8");
+      var isMobile = win.screen.width <= 767;
+      var soundropUrl = "http://open.soundrop.fm/s/WfbyfxXz7Q1hrSi8";
+      if (isMobile) {
+        $("#sounddrop-container").empty().append("<a href='" + soundropUrl + "'>" + soundropUrl + "</a>");
+      } else {
+        $("#spilleliste-soundrop").attr("src", soundropUrl);
+      }
     });
   }
 
