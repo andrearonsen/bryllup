@@ -37,13 +37,11 @@ head
               li.active
                 a(href='#hovedside') Hjem
               li
-                a(href='#svar') Svar   
-              li
-                a(href='#gjesteliste') Gjesteliste
+                a(href='#svar') Gjester
               li
                 a(href='#viktiginfo') Info
               li
-                a(href='#kart') Kart  
+                a(href='#kart') Adresser  
               li
                 a(href='#spilleliste') Musikk       
               li
@@ -60,9 +58,13 @@ head
 
         p.lead Denne siden inneholder alt #{invitasjon.antallGjester == 1 ? 'du' : 'dere'} trenger å vite om bryllupet den 24. august!
 
+        img(src="/ico/hjerte.png")
+
       hr#svar.soften  
 
       #svarseksjon.seksjon
+        h1 Gjester
+
         h2 Svar innen 15. juni 2013
         p.lead Legg gjerne inn evt. kommentarer og spesielle behov i feltet under hver gjest.
 
@@ -93,9 +95,6 @@ head
                   textarea.gjest-kommentar(placeholder='Kommentarer/Spesielle behov', 
                                            data-gjestindex='#{i}') #{gjest.kommentar}
                       
-      hr#gjesteliste.soften
-
-      #gjestelisteseksjon.seksjon
         h2 Gjester som kommer
 
         p.lead Her vises en oppdatert liste over alle gjester som har takket ja til å komme i bryllupet.
@@ -128,6 +127,7 @@ head
 
         h2 Overnatting
         p Brudeparet skal overnatte på Radisson Blu Hotell ved Holbergsplass. Det er ca. 10 min gange fra festen.
+        p Det finnes også mange andre alternative hotell i nærheten.
 
         h2 Ønskeliste
         p Vi ønsker oss først og fremst pengegaver til vår bryllupsreise.
@@ -135,7 +135,7 @@ head
       hr#kart.soften
 
       #kartseksjon.seksjon
-        h2 Veibeskrivelse
+        h1 Adresser
         p.lead Her finner #{invitasjon.antallGjester == 1 ? 'du' : 'dere'} adresser, veibeskrivelser og geoposisjon til de viktige lokasjonene. 
 
         h3 Vielse
@@ -152,6 +152,11 @@ head
         h3 Fest 
         p Festen holdes på penthouse-terrassen til Miles ved Bislett Stadion. Inngangen er i bakgården, altså ikke mot Stadion.
         p Middagen blir holdt ute på terrassen, så det kan være lurt å ta med varme klær i tilfelle det blir kaldt. 
+        p Det er også mulighet for å trekke inn i lokalet.
+        p Kollektivtransport: Nærmeste holdeplass er 
+          strong Dalsbergstien 
+          | hvor trikk 18 og 19 stopper. 
+        p Parkering: Det er mest gateparkering på Bislett. Noen parkeringsplasser med parkometer finnes utenfor NAV i Pilestredet 56.    
         address
           strong Miles Oslo AS
           br 
@@ -159,6 +164,16 @@ head
           br
           | 0170 Oslo 
         button#zoomfest.btn.btn-success(type='button') Zoom inn Fest
+
+        h3 Parkeringshus
+        p For de som vil parkere i parkeringshus, så er det nærmeste i nærheten av Tinghuset. Herfra er det 18 min gange eller 3 trikkeholdeplasser unna festen.
+        address
+          strong Europark Sentrum P-Hus
+          br 
+          | C.J. Hambros plass 1
+          br
+          | 0164 Oslo
+        button#zoomphus.btn.btn-success(type='button') Zoom inn P-Hus
 
         h3 Overnatting
         address
@@ -169,7 +184,8 @@ head
           | 0166 Oslo
         button#zoomhotell.btn.btn-success(type='button') Zoom inn Hotell  
 
-        p De nøyaktive geo-posisjonene er markert på kartet under.
+        h3 Kart
+        p#kart-zoom-anker.lead De nøyaktive geo-posisjonene er markert på kartet under.
         p
           button#zoomut.btn.btn-success(type='button') Zoom ut
 
@@ -178,7 +194,7 @@ head
       hr#spilleliste.soften
 
       #spillelisteseksjon.seksjon
-        h2 Spilleliste
+        h1 Spilleliste
 
         p.lead Vi har opprettet et rom på Soundrop hvor alle kan legge til og stemme opp sanger som skal spilles på bryllupsfesten.
         p De som ikke er på Spotify kan legge igjen en kommentar nederst på siden med musikkønske, så blir det lagt til i spillelisten.
@@ -193,7 +209,7 @@ head
       hr#bilder.soften
 
       #bildeseksjon.seksjon
-        h2 Bilder
+        h1 Bilder
 
         p.lead Her vil det legges inn bilder fra bryllupsdagen :)
 
@@ -206,7 +222,7 @@ head
       hr#kommentarer.soften
       
       #kommentarseksjon.seksjon
-        h2 Kommentarer
+        h1 Kommentarer
 
         p.lead Legg gjerne igjen kommentarer, musikkønsker o.l. her!
 

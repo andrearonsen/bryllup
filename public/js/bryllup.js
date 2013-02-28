@@ -224,6 +224,12 @@ var BRYLLUP = this.BRYLLUP || {};
     });    
   } 
 
+  function scrollToElement($element) {
+    $('html, body').animate({
+      scrollTop: $element.offset().top
+    }, 2000);
+  }
+
   function initGoogleMaps() {
     console.log('Initializing Google Maps element.');
     // https://maps.google.com/maps/ms?msid=218041799752383192256.0004d60e1d6b7c3e23a12&msa=0&ll=59.88842,10.782051&spn=0.143476,0.444603
@@ -251,7 +257,7 @@ var BRYLLUP = this.BRYLLUP || {};
       title: "Mortensrud Kirke"
     });
 
-    var miles_latlng = new google.maps.LatLng(59.924431,10.731964);
+    var miles_latlng = new google.maps.LatLng(59.924431, 10.731964);
     var miles_icon = '/ico/fest.png';
     var marker_miles = new google.maps.Marker({
       position: miles_latlng,
@@ -259,6 +265,16 @@ var BRYLLUP = this.BRYLLUP || {};
       animation: google.maps.Animation.BOUNCE,
       icon: miles_icon,
       title: "Miles Oslo AS"
+    });
+
+    var phus_latlng = new google.maps.LatLng(59.916396, 10.74225);
+    var phus_icon = '/ico/phus.png';
+    var marker_phus = new google.maps.Marker({
+      position: phus_latlng,
+      map: B.kart,
+      animation: google.maps.Animation.BOUNCE,
+      icon: phus_icon,
+      title: "Europark Sentrum P-hus"
     });
 
     var hotell_latlng = new google.maps.LatLng(59.918660, 10.733699);
@@ -283,6 +299,7 @@ var BRYLLUP = this.BRYLLUP || {};
     google.maps.event.addListener(marker_kirke, 'click', toggleBounce(marker_kirke));
     google.maps.event.addListener(marker_miles, 'click', toggleBounce(marker_miles));
     google.maps.event.addListener(marker_hotell, 'click', toggleBounce(marker_hotell));
+    google.maps.event.addListener(marker_phus, 'click', toggleBounce(marker_phus));
 
     $('.map').on('shown', function () { 
       google.maps.event.trigger(B.kart, 'resize'); 
@@ -291,24 +308,36 @@ var BRYLLUP = this.BRYLLUP || {};
     B.kart.set('scrollwheel', false);
     // B.kart.set('draggable', false);
 
+    var kartZoomAnkerElement = $("#kart-zoom-anker");
+
     $('#zoomut').click(function (e) {
       B.kart.setCenter(center_latlng);
       B.kart.setZoom(zoom);
+      scrollToElement(kartZoomAnkerElement);
     });
 
     $('#zoomkirke').click(function (e) {
       B.kart.setCenter(kirke_latlng);
       B.kart.setZoom(isMobile ? 15 : 17);
+      scrollToElement(kartZoomAnkerElement);
     });
 
     $('#zoomfest').click(function (e) {
       B.kart.setCenter(miles_latlng);
       B.kart.setZoom(isMobile ? 17 : 19);  
+      scrollToElement(kartZoomAnkerElement);
+    });
+    
+    $('#zoomphus').click(function (e) {
+      B.kart.setCenter(phus_latlng);
+      B.kart.setZoom(isMobile ? 17 : 19);  
+      scrollToElement(kartZoomAnkerElement);
     });
 
     $('#zoomhotell').click(function (e) {
       B.kart.setCenter(hotell_latlng);
-      B.kart.setZoom(isMobile ? 17 : 19);    
+      B.kart.setZoom(isMobile ? 17 : 19);
+      scrollToElement(kartZoomAnkerElement);    
     });
   }
 
@@ -420,7 +449,7 @@ var BRYLLUP = this.BRYLLUP || {};
     _.defer(loadDisqus);
     _.defer(function () {
       var isMobile = win.screen.width <= 767;
-      var soundropUrl = "http://open.soundrop.fm/s/WfbyfxXz7Q1hrSi8";
+      var soundropUrl = "http://goo.gl/nZQOe";
       if (isMobile) {
         $("#sounddrop-container").empty().append("<a href='" + soundropUrl + "'>" + soundropUrl + "</a>");
       } else {
