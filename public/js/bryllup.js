@@ -460,10 +460,10 @@ var BRYLLUP = this.BRYLLUP || {};
 
   B.startIndex = startIndex;
   B.startHovedside = startHovedside;
-  B.fjernInvitasjonskode = fjernInvitasjonskode;
-  B.forwardTilIndex = forwardTilIndex;
-  B.lagreInvitasjon = lagreInvitasjon;
-  B.hentInvitasjon = hentInvitasjon;
-  B.hentGjesterSomKommer = hentGjesterSomKommer;
-  B.loadGoogleMaps = loadGoogleMaps;
+  // B.fjernInvitasjonskode = fjernInvitasjonskode;
+  // B.forwardTilIndex = forwardTilIndex;
+  // B.lagreInvitasjon = lagreInvitasjon;
+  // B.hentInvitasjon = hentInvitasjon;
+  // B.hentGjesterSomKommer = hentGjesterSomKommer;
+  // B.loadGoogleMaps = loadGoogleMaps;
 }(window, jQuery, _, Modernizr, BRYLLUP));

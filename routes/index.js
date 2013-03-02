@@ -283,7 +283,11 @@ exports.hovedside = function(req, res) {
     } else {
       console.log("Result: " + JSON.stringify(item));
       berikInvitasjon(item);
-      res.render("hovedside", {title: "Bryllup 24. august 2013", invitasjon : item}); 
+      res.render("hovedside", {
+        title: "Bryllup 24. august 2013", 
+        invitasjon : item, 
+        epost: "bryllup@fagerliearonsen.com"
+      }); 
     }
   });
 };

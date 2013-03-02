@@ -401,7 +401,7 @@ function invitasjonsliste_gjester() {
 
   {
     gjest1 : {
-      fornavn: 'Linn-Therese',
+      fornavn: 'Linn Therese',
       mellomnavn: 'Dalberg',
       etternavn: 'Johansen'
     },
