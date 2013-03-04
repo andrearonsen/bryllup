@@ -4,8 +4,8 @@ var BRYLLUP = this.BRYLLUP || {};
   "use strict";
 
   var meldingTemplate = '<div id="melding" class="alert">{{tekst}}</div>';
-  var fantIkkeKodeTekst = 'Fant dessverre ikke invitasjonskoden.';
-  var serverFeilTekst = 'Det har oppstått en feil på serveren, beklager!';
+  var fantIkkeKodeTekst = 'Fant dessverre ikke invitasjonskoden. Prøv igjen, koden består av initialer og et tall. Eller send André en SMS på 406 10 588, så fikser han det :-)';
+  var serverFeilTekst = 'Det har oppstått en feil på serveren, beklager! Prøv igjen senere.';
 
   B.meldinger = {};
 
@@ -362,6 +362,21 @@ var BRYLLUP = this.BRYLLUP || {};
     dsq.async = true;
     dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  }
+
+  function findCurrentCountry(callback) {
+    if (Modernizr.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+          $.getJSON('http://ws.geonames.org/countryCode', {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+              type: 'JSON'
+          }, function(result) {
+              alert('Country: ' + result.countryName + '\n' + 'Code: ' + result.countryCode);
+              callback(result);
+          });
+      });
+    }
   }
 
   function startIndex() {
