@@ -33,9 +33,6 @@ head
           input#invitasjonskodeInput(type='search', placeholder='INVITASJONSKODE', autofocus='autofocus')
         .row-fluid
           a#sjekkInvitasjonskodeKnapp.btn.btn-primary.btn-large(data-loading-text='Laster invitasjon...', autocomplete="off") Sjekk kode
-
-      #loadingScreen.modal.hide(data-backdrop='static', data-keyboard='false')
-        img#pacman(src='/img/ajax-loader.gif')
     
     //script(src='/js/jquery.js')
     //script(src='/js/underscore.js')
@@ -49,6 +46,6 @@ head
 
     script
       $(document).ready(function() {
-      BRYLLUP.startIndex();
-      $('#invitasjonskodeInput').focus();
+        BRYLLUP.startIndex();
+        $('#invitasjonskodeInput').focus();
       });

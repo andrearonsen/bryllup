@@ -43,17 +43,11 @@ var BRYLLUP = this.BRYLLUP || {};
 
     B.visLoadingScreen = function () {
       console.log('Viser loading screen.');
-      // loadingScreen.modal('show');
-      // B.pacman.css({'padding-left': 0});
-      // B.pacman.animate({'padding-left': '+=500px'}, {
-      //   duration: 10000
-      // });
       B.sjekkInvitasjonskodeKnapp.button('loading');
     };
 
     B.skjulLoadingScreen = function () {
       console.log('Skjuler loading screen.');
-      // loadingScreen.modal('hide');
       B.sjekkInvitasjonskodeKnapp.button('reset');
       B.fokusInvitasjonskodeInput();
     };
@@ -232,11 +226,7 @@ var BRYLLUP = this.BRYLLUP || {};
 
   function initGoogleMaps() {
     console.log('Initializing Google Maps element.');
-    // https://maps.google.com/maps/ms?msid=218041799752383192256.0004d60e1d6b7c3e23a12&msa=0&ll=59.88842,10.782051&spn=0.143476,0.444603
-    //https://maps.google.com/maps/ms?msid=218041799752383192256.0004d60e1d6b7c3e23a12&msa=0&ll=59.888592,10.849686&spn=0.095593,0.060768
     var isMobile = win.screen.width < 767;
-    // var latlng_desktop = new google.maps.LatLng(59.888592, 10.849686);
-    // var latlng_mobile = new google.maps.LatLng(59.88842,10.782051);
     var center_latlng = new google.maps.LatLng(59.88842,10.782051);
     var zoom = isMobile ? 10 : 12;
     var mapOptions = {
@@ -346,9 +336,6 @@ var BRYLLUP = this.BRYLLUP || {};
   function loadGoogleMaps() {
     console.log('Loading Google Maps script.');
 
-    // var max_size = win.screen.width / 3;
-    // $("#kart_canvas").css('max-width', max_size).css('max-height', max_size);
-
     var script = document.createElement("script");
     script.type = "text/javascript";
     script.src = "http://maps.googleapis.com/maps/api/js?key=AIzaSyCiBzXAv4sNqDkEL5UgAeq1ZSV7IkuABgc&sensor=false&callback=BRYLLUP.initGoogleMaps";
@@ -372,10 +359,21 @@ var BRYLLUP = this.BRYLLUP || {};
               lng: position.coords.longitude,
               type: 'JSON'
           }, function(result) {
-              alert('Country: ' + result.countryName + '\n' + 'Code: ' + result.countryCode);
-              callback(result);
+              callback(result.countryCode);
           });
       });
+    }
+  }
+
+  function sjekkSvarFrist() {
+    var idag = new Date();
+    var svarFrist = new Date(2013, 5, 17, 8, 0, 0, 0); // 17. juni kl. 8
+    if (idag > svarFrist) {
+      console.log("Svarfrist er utløpt.");
+      $(".gjest-kommer button").attr("disabled", "disabled");
+    } else {
+      console.log("Fortsatt tid til å svare.");
+      console.log("SvarFrist: " + svarFrist);
     }
   }
 
@@ -457,6 +455,8 @@ var BRYLLUP = this.BRYLLUP || {};
       oppdaterKommentar(invitasjonskode, gjest_key, kommentar);
     });
 
+    sjekkSvarFrist();
+
     _.defer(loadGoogleMaps);
     _.defer(function () {
       $("#bildekarusell").load("/bildekarusell/" + win.screen.width);
@@ -475,10 +475,4 @@ var BRYLLUP = this.BRYLLUP || {};
 
   B.startIndex = startIndex;
   B.startHovedside = startHovedside;
-  // B.fjernInvitasjonskode = fjernInvitasjonskode;
-  // B.forwardTilIndex = forwardTilIndex;
-  // B.lagreInvitasjon = lagreInvitasjon;
-  // B.hentInvitasjon = hentInvitasjon;
-  // B.hentGjesterSomKommer = hentGjesterSomKommer;
-  // B.loadGoogleMaps = loadGoogleMaps;
 }(window, jQuery, _, Modernizr, BRYLLUP));

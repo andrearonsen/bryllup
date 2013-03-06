@@ -247,6 +247,14 @@ function oppdaterGjestFelt(req, res, felt) {
 }
 
 exports.oppdaterkommer = function (req, res) {
+  var svarFrist = new Date(2013, 5, 17, 8, 0, 0, 0); // 17. juni kl. 8
+  var idag = new Date();
+
+  if (idag > svarFrist) {
+    res.status(412);
+    return;
+  }
+
   var invitasjonskode = req.body.invitasjonskode;
   var gjest_key = req.body.gjest_key;
   var kommer = req.body.kommer;
