@@ -4,15 +4,8 @@ head
     meta(charset='utf-8')
     title #{title}
     meta(name='viewport', content='width=device-width, initial-scale=1.0')
-    meta(name='description', content='Bryllupsside for André og Sarah som gifter seg den 24.08.2013')
+    meta(name='description', content='Hochzeitsseite für André und Sarah, die am 24.08.2013 heiraten.')
     meta(name='author', content='André Kvist Aronsen')
-    
-    //link(href='/css/bootstrap.min.css', rel='stylesheet') 
-    //style(type="text/css") body {padding-top: 60px;} 
-    //link(href='/css/bootstrap-responsive.min.css', rel='stylesheet')
-    //link(href='/css/bootstrap-modal.css', rel='stylesheet')
-    //link(href='/css/bryllup.css', rel='stylesheet')
-
     link(href='/css/bryllup.min.css', rel='stylesheet')
 
     //
@@ -35,47 +28,48 @@ head
             span.icon-bar
             span.icon-bar
             span.icon-bar
-          a.brand(href='/') Bryllup 24.08.13
+          a.brand(href='/') Hochzeit 24.08.13
           .nav-collapse.collapse
             ul.nav
               li.active
-                a(href='#hovedside') Hjem
+                a(href='#hovedside') Home
               li
-                a(href='#svar') Gjester
+                a(href='#svar') Gäste
               li
                 a(href='#viktiginfo') Info
               li
-                a(href='#kart') Adresser  
+                a(href='#kart') Adressen  
               li
-                a(href='#spilleliste') Musikk       
+                a(href='#spilleliste') Musik       
               li
                 a(href='#bilder') Bilder
               li
-                a(href='#kommentarer') Kommentarer  
+                a(href='#kommentarer') Kommentare  
             .nav.pull-right
               button#loggut.btn.btn-success(href='/') 
                 i.icon-user.icon-white 
-                |  Logg ut, #{invitasjon.tiltale}
+                |  Ausloggen, #{invitasjon.tiltale}
     .container-fluid(style="height: 100%;")
       #velkommenseksjon.seksjon
-        h1 Velkommen til bryllup, #{invitasjon.tiltale}!
+        h1 Willkommen zur Hochzeit, #{invitasjon.tiltale}!
 
-        p.lead Denne siden inneholder alt #{invitasjon.antallGjester == 1 ? 'du' : 'dere'} trenger å vite om bryllupet den 24. august!
+        p.lead Diese Seite enthält alles über die Hochzeit am 24. August 2013!
 
         img(src="/ico/hjerte.png")
 
       hr#svar.soften  
 
       #svarseksjon.seksjon
-        h1 Gjester
+        h1 Gäste
 
-        h2 Svar innen 15. juni 2013
-        p.lead Legg gjerne inn evt. kommentarer og spesielle behov i feltet under hver gjest.
-        p Blir det endring i sivilstatus, så send oss en mail på
+        h2 Bitte antwortet spätestens am 15. juni 2013
+        p.lead Kommentare oder besondere Bedürfnisse werden unter dem jeweiligen Gast eingetragen.
+        p Bei Änderungen im Familienstand bitte eine Mail an
           |  
           a(href="mailto:#{epost}") #{epost}
           | 
-          | så legger vi til, fjerner eller endrer ledsager :-)
+          | schicken
+          | und wir werden dementsprechend einen Begleiter hinzufügen oder entfernen :-)
         each gjest, i in invitasjon.gjester
           .gjest.row-fluid
             .span12
@@ -90,81 +84,81 @@ head
                   strong #{gjest.fulltNavn}
               .gjest-kommer.btn-group(data-toggle='buttons-radio', data-gjestindex='#{i}')
                 if gjest.kommer === 'Ja'
-                  button.kommer.btn.btn-success.active(type='button') Kommer
-                  button.kommer-ikke.btn.btn-success(type='button') Kommer ikke 
+                  button.kommer.btn.btn-success.active(type='button') Kommt
+                  button.kommer-ikke.btn.btn-success(type='button') Kommt nicht 
                 else if gjest.kommer === 'Nei'
-                  button.kommer.btn.btn-success(type='button') Kommer
-                  button.kommer-ikke.btn.btn-success.active(type='button') Kommer ikke  
+                  button.kommer.btn.btn-success(type='button') Kommt
+                  button.kommer-ikke.btn.btn-success.active(type='button') Kommt nicht  
                 else
-                  button.kommer.btn.btn-success(type='button') Kommer
-                  button.kommer-ikke.btn.btn-success(type='button') Kommer ikke
+                  button.kommer.btn.btn-success(type='button') Kommt
+                  button.kommer-ikke.btn.btn-success(type='button') Kommt nicht
               
                 .kommentar                  
-                  textarea.gjest-kommentar(placeholder='Kommentarer/Spesielle behov', 
+                  textarea.gjest-kommentar(placeholder='Kommentare/Sonderbedürfnisse', 
                                            data-gjestindex='#{i}') #{gjest.kommentar}
                       
-        h2 Gjester som kommer
+        h2 Gästeliste
 
-        p.lead Her vises en oppdatert liste over alle gjester som har takket ja til å komme i bryllupet.
-
+        p.lead Hier wird eine aktualisierte Liste der Gäste, die zur Hochzeit kommen werden.
+        
         a#vis-gjesteliste(class="btn btn-success btn-large",
                           role="button", 
                           data-toggle="modal", 
                           data-target="#gjesteliste-modal",
-                          href="/gjesteliste") Vis gjesteliste
+                          href="/gjesteliste") Gäste anzeigen
 
         #gjesteliste-modal.modal.hide.fade(role="dialog", tabindex="-1")
 
       hr#viktiginfo.soften
 
       #viktiginfoseksjon.seksjon
-        h1 Viktig informasjon
-        p.lead Her finnes oppdatert nøkkelinformasjon om bryllupet.
+        h1 Wichtige Information
+        p.lead Hier findet Ihr aktualiserten Information über die Hochzeit.
 
-        h2 Nøkkelpersoner
-        p Her vil det legges inn viktige nøkkelpersoner etterhvert som de blir bestemt.
+        h2 Schlüsselpersonen
+        p Hier werden die Schlüsselpersonen der Hochzeit eingetragen als sie bestimmt werden.
 
         .container
           .span3
           .span6
-            dl#nokkelpersoner.dl-horizontal
-              dt Forlovere brud
+            dl#nokkelpersoner
+              dt Die Trauzeuginnen der Braut
               dd Mie Molin Lafjell og Renate Nordahl
-              dt Forlover brudgom
+              dt Der Trauzeuge des Bräutigam
               dd Aleksander Kvist Aronsen
           .span3          
 
-        h2 Tidsplan
+        h2 Zeitplan
         #tidsplan
           p 
             span.klokkeslett kl. 14.30
-            |: Vielse i Mortensrud Kirke
-          p fra ca. 
+            |: Trauung in Mortensrud Kirke
+          p ab ca. 
             span.klokkeslett kl. 16.00
-            |: Mottakelse på Miles-terrassen. Det vil bli servert sprudlevann og snacks.
+            |: Empfang auf der Miles-Terrasse. Es wird Sekt und Kleinigkeiten serviert.
           p 
             span.klokkeslett kl. 18.30
-            |: Mat + fest
+            |: Das Essen + Party
 
-        h2 Mat og drikke
-        p Det serveres helgrillet lam med tilbehør.
-        p Hvis det er spesielle behov (vegetarianer, laktoseintolerant, cøliaki, etc.), så legges dette inn i kommentarfeltet under den gjesten det gjelder.
+        h2 Mittagessen
+        p Zum Essen wird ganzes Lamm gegrillt.
+        p Sonderbedürfnisse, z.B. Vegetarianer, Laktoseintoleranz, Zöliakie, usw., werden im Kommentarfelt unter dem Gast eingetragen.
 
-        h2 Overnatting
-        p Brudeparet skal overnatte på Radisson Blu Hotell ved Holbergsplass. Det er ca. 10 min gange fra festen.
-        p Det finnes også mange andre alternative hotell i nærheten.
+        h2 Übernachtung
+        p Das Brautpaar wird im Radisson Blu Hotell bei Holbergsplass übernachten. Das Hotel liegt etwa 10 Minuten zu Fuß vom Fest entfernt.
+        p Es gibt auch einige andere Hotels in der Nähe.
 
-        h2 Ønskeliste
-        p Vi ønsker oss først og fremst pengegaver til vår bryllupsreise.
+        h2 Wünsche
+        p Wir wünschen uns hauptsächlich finanzielle Beiträge für die Flitterwochen, da wir alles Mögliche schon haben. :-)
 
       hr#kart.soften
 
       #kartseksjon.seksjon
-        h1 Adresser
-        p.lead Her finner #{invitasjon.antallGjester == 1 ? 'du' : 'dere'} adresser, veibeskrivelser og geoposisjon til de viktige lokasjonene. 
+        h1 Adressen
+        p.lead Hier findet Ihr Adressen, Wegbeschreibungen und Geopositionen der wichtigsten Lokationen. 
 
-        h3 Vielse
-        p Kirken ligger i gåavstand fra Mortensrud T-bane.
+        h3 Trauung
+        p Die Kirche liegt etwa 3 Minuten zu Fuß vom Mortensrud T-bane (U-Bahn Linie 3).
 
         address
           strong Mortensrud Kirke
@@ -172,58 +166,58 @@ head
           | Helga Vaneks Vei 15
           br
           | 1281 Oslo
-        button#zoomkirke.btn.btn-success(type='button') Zoom inn Kirke  
+        button#zoomkirke.btn.btn-success(type='button') Kirche einzoomen  
 
-        h3 Fest 
-        p Festen holdes på penthouse-terrassen til Miles ved Bislett Stadion. Inngangen er i bakgården, altså ikke mot Stadion.
-        p Middagen blir holdt ute på terrassen, så det kan være lurt å ta med varme klær i tilfelle det blir kaldt. 
-        p Det er også mulighet for å trekke inn i lokalet.
-        p Kollektivtransport: Nærmeste holdeplass er 
+        h3 Feier
+        p Die Feier wird auf dem Dachterrasse von Miles bei Bislett Stadion gehalten. Der Eingang liegt im Hof und nicht gegen dem Stadion. 
+        p Das Essen wird eingenommen draußen auf der Terrasse, also nimmt bitte varme Kleider mit, falls es kalt wird (wir sind ja in Norwegen...).
+        p Es gibt aber auch die Möglichkeit, nach dem Essen sich ins Lokal zurückzuziehen.
+        p Öffentliches Verkehr: Am Besten die Straßenbahn 17 oder 18 nach  
           strong Dalsbergstien 
-          | hvor trikk 17 og 18 stopper. 
-        p Parkering: Det er mest gateparkering på Bislett. Noen parkeringsplasser med parkometer finnes utenfor NAV i Pilestredet 56.    
+          | nehmen. Die fahren vom HBf in Richtung Rikshospitalet.
+        p Parken: Auf Bislett muß man in der Regel an der Straßen parken. Es gibt allerdings einige gebührenpflichtigen Parkplätze bei NAV in Pilestredet 56.    
         address
           strong Miles Oslo AS
           br 
           | Bislettgata 4
           br
           | 0170 Oslo 
-        button#zoomfest.btn.btn-success(type='button') Zoom inn Fest
+        button#zoomfest.btn.btn-success(type='button') Feier einzoomen
 
-        h3 Parkeringshus
-        p For de som vil parkere i parkeringshus, så er det nærmeste i nærheten av Tinghuset. Herfra er det 18 min gange eller 3 trikkeholdeplasser unna festen.
+        h3 Parkhaus
+        p Für diejenige, die im Parkhaus parken wollen, gibt es ein Parkhaus in der Nähe von Tinghuset. Es liegt etwa 18 Minuten zu Fuß oder 3 Haltestellen mit der Straßenbahn entfernt.
         address
           strong Europark Sentrum P-Hus
           br 
           | C.J. Hambros plass 1
           br
           | 0164 Oslo
-        button#zoomphus.btn.btn-success(type='button') Zoom inn P-Hus
+        button#zoomphus.btn.btn-success(type='button') Parkhaus einzoomen
 
-        h3 Overnatting
+        h3 Übernachtung
         address
           strong Radisson Blu Scandinavia Hotel Oslo
           br 
           | Holbergsgate 30
           br
           | 0166 Oslo
-        button#zoomhotell.btn.btn-success(type='button') Zoom inn Hotell  
+        button#zoomhotell.btn.btn-success(type='button') Hotel einzoomen 
 
-        h3 Kart
-        p#kart-zoom-anker.lead De nøyaktive geo-posisjonene er markert på kartet under.
+        h3 Karte
+        p#kart-zoom-anker.lead Die genauen Geopositionen sind in der Karte unten markiert.
         p
-          button#zoomut.btn.btn-success(type='button') Zoom ut
+          button#zoomut.btn.btn-success(type='button') Auszoomen
 
         #kart_canvas
 
       hr#spilleliste.soften
 
       #spillelisteseksjon.seksjon
-        h1 Spilleliste
+        h1 Playlist
 
-        p.lead Vi har opprettet et rom på Soundrop hvor alle kan legge til og stemme opp sanger som skal spilles på bryllupsfesten.
-        p De som ikke er på Spotify kan legge igjen en kommentar nederst på siden med musikkønske, så blir det lagt til i spillelisten.
-
+        p.lead Wir haben ein Sounddrop-Room eingerichtet, wo die Gäste Lieder aus Spotify hinzufügen und abchecken können. Die beliebtesten Lieder rücken nach oben in der Playlist.  
+        p Diejenige, die nicht auf Spotify sind, können Musikwünsche im Kommentarfelt ganz unten auf der Seite vorschlagen.
+        
         #sounddrop-container
           iframe#spilleliste-soundrop(src='', width='100%', height='750', frameborder='0', 
                webkitallowfullscreen='webkitAllowFullScreen', 
@@ -236,20 +230,20 @@ head
       #bildeseksjon.seksjon
         h1 Bilder
 
-        p.lead Her vil det legges inn bilder fra bryllupsdagen :)
+        p.lead Hier werden Bilder von der Hochzeit angezeigt :)
 
-        p Send oss gjerne bilder fra bryllupsfesten på 
+        p Schickt uns gerne Hochzeitsbilder an  
           a(href='mailto:#{epost}') #{epost}
-          | , så legger vi det ut på denne siden.
+          | und wir werden sie hier hochladen.
 
         #bildekarusell
 
       hr#kommentarer.soften
       
       #kommentarseksjon.seksjon
-        h1 Kommentarer
+        h1 Kommentare
 
-        p.lead Legg gjerne igjen kommentarer, musikkønsker o.l. her!
+        p.lead Bitte Kommentare, Musikkwünsche, usw. hier eintragen!
 
         #disqus_thread
       
@@ -260,7 +254,7 @@ head
 
       footer.footer
         img#pacman(src='/img/ajax-loader.gif')
-        p Håndlaget av André Kvist Aronsen &copy; 2013
+        p Gebastelt von André Kvist Aronsen &copy; 2013
 
     //script(src='/js/jquery.js')
     //script(src='/js/underscore.js')

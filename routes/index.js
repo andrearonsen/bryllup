@@ -61,14 +61,6 @@ function hentInvitasjon(invitasjonskode, behandle_invitasjon) {
   });
 }
 
-function eksistererInvitasjon(invitasjonskode, callback) {
-  doWithGjestelisteCollection(function (err, gjesteliste) {
-    gjesteliste.count({invitasjonskode: invitasjonskode}, {}, function (err, count) {
-      callback(err, (count === 1));
-    });  
-  });
-}
-
 function gjester(invitasjon) {
   return fn.compact([invitasjon.gjest1, invitasjon.gjest2, invitasjon.gjest3]);
 }
@@ -211,16 +203,34 @@ exports.index = function(req, res) {
 exports.sjekkinvitasjonskode = function (req, res) {
   var invitasjonskode = req.params.invitasjonskode.toUpperCase();
   console.log("Sjekk invitasjonskode: " + invitasjonskode);
-  eksistererInvitasjon(invitasjonskode, function(err, eksisterer) {
+  hentInvitasjon(invitasjonskode, function(err, invitasjon) {
     if (err) {
       console.warn('Error ved uthenting av invitasjon: ' + err);
       res.status(500).send('Klarte ikke å hente ut invitasjonen dessverre, prøv igjen senere!');   
-    } else if (!eksisterer) {
+    } else if (!invitasjon) {
       console.warn('Invitasjonskode ' + invitasjonskode + ' ikke funnet.');
       res.status(404).send('Fant dessverre ikke invitasjonskoden [' + invitasjonskode + '] i systemet.' ); 
     } else {
       console.log("Invitasjonskode " + invitasjonskode + " funnet.");
-      res.send(invitasjonskode);
+      var retval = {invitasjonskode: invitasjon.invitasjonskode};
+      if (invitasjon.spraakkode) {
+        retval.spraakkode = invitasjon.spraakkode;
+      }
+      res.send(retval);
+    }
+  });
+};
+
+exports.sjekkSkalViseTyskSide = function (req, res) {
+  var invitasjonskode = req.params.invitasjonskode.toUpperCase();
+  console.log("Sjekk skalViseTyskSide: " + invitasjonskode);
+  skalViseTyskSide(invitasjonskode, function(err, skalViseTysk) {
+    if (err) {
+      console.warn('Error ved uthenting av invitasjon: ' + err);
+      res.send(false);   
+    } else {
+      console.log("Skal vise tysk side: ");
+      res.send(skalViseTysk);
     }
   });
 };
@@ -293,6 +303,27 @@ exports.hovedside = function(req, res) {
       berikInvitasjon(item);
       res.render("hovedside", {
         title: "Bryllup 24. august 2013", 
+        invitasjon : item, 
+        epost: "bryllup@fagerliearonsen.com"
+      }); 
+    }
+  });
+};
+
+exports.hauptseite = function(req, res) {
+  var invitasjonskode = req.params.invitasjonskode.toUpperCase();
+  hentInvitasjon(invitasjonskode, function(err, item) {
+    if (!item) {
+      console.warn('Invitasjonskode ' + invitasjonskode + ' ikke funnet.');
+      res.status(404).send('Fant dessverre ikke invitasjonskoden [' + invitasjonskode + '] i systemet.' );
+    } else if (err) {
+      console.warn('Error ved uthenting av invitasjon: ' + err);
+      res.status(500).send('Klarte ikke å hente ut invitasjonen dessverre, prøv igjen senere!');  
+    } else {
+      console.log("Result: " + JSON.stringify(item));
+      berikInvitasjon(item);
+      res.render("hauptseite", {
+        title: "Hochzeit 24. august 2013", 
         invitasjon : item, 
         epost: "bryllup@fagerliearonsen.com"
       }); 

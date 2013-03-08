@@ -57,6 +57,10 @@ var BRYLLUP = this.BRYLLUP || {};
     win.location = "/hovedside/" + invitasjonskode;  
   }
 
+  function forwardTilHauptseite(invitasjonskode) {
+    win.location = "/hauptseite/" + invitasjonskode;  
+  }
+
   function forwardTilIndex() {
     win.location = "/";  
   }
@@ -129,10 +133,14 @@ var BRYLLUP = this.BRYLLUP || {};
       dataType: 'json',
       url: "/sjekkinvitasjonskode/" + invitasjonskode,
       statusCode: {
-        200: function () {
+        200: function (data) {
           console.log("Fant invitasjonskode: " + invitasjonskode); 
           lagreInvitasjonskode(invitasjonskode);
-          forwardTilHovedside(invitasjonskode); 
+          if (data.spraakkode === 'DE') {
+            forwardTilHauptseite(invitasjonskode);
+          } else {
+            forwardTilHovedside(invitasjonskode); 
+          }
         },
         404: function () {
           console.log("404"); 
@@ -382,8 +390,13 @@ var BRYLLUP = this.BRYLLUP || {};
 
     B.visLoadingScreen();
     var lagretInvitasjonskode = hentLagretInvitasjonskode();
+    var lagretInvitasjon = hentInvitasjon();
     if (lagretInvitasjonskode) {
-      forwardTilHovedside(lagretInvitasjonskode);
+      if (lagretInvitasjon && lagretInvitasjon.spraakkode === 'DE') {
+        forwardTilHauptseite(lagretInvitasjonskode);
+      } else {
+        forwardTilHovedside(lagretInvitasjonskode);
+      }
       return;
     }
 
