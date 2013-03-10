@@ -9,7 +9,7 @@ var BRYLLUP = this.BRYLLUP || {};
 
   B.meldinger = {};
 
-  function konfigurer() {
+  function konfigurerIndex() {
     _.templateSettings = {
       interpolate : /\{\{(.+?)\}\}/g
     };
@@ -51,6 +51,11 @@ var BRYLLUP = this.BRYLLUP || {};
       B.sjekkInvitasjonskodeKnapp.button('reset');
       B.fokusInvitasjonskodeInput();
     };
+
+    var erMobil = win.screen.width < 767;
+    if (Modernizr.localstorage || erMobil) {
+      $("#steinalderen").remove();
+    }
   }
 
   function forwardTilHovedside(invitasjonskode) {
@@ -386,9 +391,8 @@ var BRYLLUP = this.BRYLLUP || {};
   }
 
   function startIndex() {
-    konfigurer();
+    konfigurerIndex();
 
-    B.visLoadingScreen();
     var lagretInvitasjonskode = hentLagretInvitasjonskode();
     var lagretInvitasjon = hentInvitasjon();
     if (lagretInvitasjonskode) {
@@ -410,8 +414,6 @@ var BRYLLUP = this.BRYLLUP || {};
         sjekkInvitasjonskode(invitasjonskode);
       }   
     });
-    
-    B.skjulLoadingScreen();
   }
 
   function startHovedside(invitasjon_json) {
