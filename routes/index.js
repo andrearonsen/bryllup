@@ -81,6 +81,10 @@ function gjester_til_tekst(invitasjon) {
   return fn_s.toSentence(fn.filter(gjester(invitasjon), gjestKommer).map(printGjest), ", ", " og ");
 }
 
+function invitasjon_til_enkeltpersoner(invitasjon) {
+  return fn.filter(gjester(invitasjon), gjestKommer);
+}
+
 function hentAlleGjesterSomKommer(callback) {
   console.log("Test har minst en: " + harMinstEnGjestSomKommer({gjest1: {kommer : 'Nei'}, gjest2: {kommer : 'Ja'}}));
   doWithGjestelisteCollection(function (err, gjesteliste) {
@@ -89,6 +93,18 @@ function hentAlleGjesterSomKommer(callback) {
       if (err) throw err;
       console.log("Alle invitasjoner: " + alle_invitasjoner.length);
       var invitasjoner = fn.filter(alle_invitasjoner, harMinstEnGjestSomKommer).map(gjester_til_tekst); 
+      callback(err, invitasjoner);
+    });  
+  });
+}
+
+function hentAllePersonerSomKommer(callback) {
+  doWithGjestelisteCollection(function (err, gjesteliste) {
+    if (err) throw err;
+    gjesteliste.find().toArray(function (err, alle_invitasjoner) {
+      if (err) throw err;
+      var invitasjoner = fn.sortBy(fn.flatten(fn.filter(alle_invitasjoner, harMinstEnGjestSomKommer).map(invitasjon_til_enkeltpersoner)),
+        function (gjest) {return gjest.etternavn;}).map(printGjest); 
       callback(err, invitasjoner);
     });  
   });
@@ -110,6 +126,19 @@ function berikInvitasjon(invitasjon) {
 exports.gjestersomkommer = function (req, res) {
   console.log("Henter alle gjester som kommer.");
   hentAlleGjesterSomKommer(function (err, invitasjoner_navn) {
+    if (err) {
+      console.warn('Feil ved lesing fra databasen: ' + err);
+      res.status(500).send('Klarte ikke å hente ut gjestelisten.');   
+    } else {
+      console.log("Fant " + invitasjoner_navn.length + " invitasjoner.");
+      res.send(invitasjoner_navn);
+    }
+  });
+};
+
+exports.personersomkommer = function (req, res) {
+  console.log("Henter alle personer som kommer.");
+  hentAllePersonerSomKommer(function (err, invitasjoner_navn) {
     if (err) {
       console.warn('Feil ved lesing fra databasen: ' + err);
       res.status(500).send('Klarte ikke å hente ut gjestelisten.');   
