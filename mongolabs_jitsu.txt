@@ -1,8 +1,0 @@
-URL: mongodb://nodejitsu_andrearonsen:5kn803s0rp2nrpt3r4cplahs7u@ds049537.mongolab.com:49537/nodejitsu_andrearonsen_nodejitsudb7379247420
-Server: ds049537.mongolab.com
-Port: 49537
-User: nodejitsu_andrearonsen
-PW: 5kn803s0rp2nrpt3r4cplahs7u
-DB: nodejitsu_andrearonsen_nodejitsudb7379247420
-
-mongo ds049537.mongolab.com:49537/nodejitsu_andrearonsen_nodejitsudb7379247420 -u nodejitsu_andrearonsen -p 5kn803s0rp2nrpt3r4cplahs7u
